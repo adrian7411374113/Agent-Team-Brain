@@ -1,0 +1,25 @@
+{
+  "name": "agent-team-brain",
+  "version": "0.2.0",
+  "description": "File-first operating system starter for generic AI agent teams.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "agent-team-brain": "./bin/agent-team-brain.js"
+  },
+  "scripts": {
+    "doctor": "node ./bin/agent-team-brain.js doctor",
+    "check": "node --check ./bin/agent-team-brain.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "README.md",
+    "ROADMAP.md",
+    "bin/",
+    "docs/",
+    "templates/",
+    "package.json"
+  ]
+}

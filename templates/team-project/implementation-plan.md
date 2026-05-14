@@ -10,7 +10,7 @@ Agent:
 2.
 3.
 
-## File ownership / partitioning
+## File responsibility / partitioning
 
 - 
 

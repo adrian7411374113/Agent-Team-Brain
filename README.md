@@ -20,12 +20,45 @@ Every meaningful project moves through a visible loop:
 
 The operating system carries its own task-state model. External visualization can mirror that state, but the core design should not assume one.
 
+## Install / bootstrap
+
+Use the CLI from this package directory or from an installed package:
+
+```bash
+node ./bin/agent-team-brain.js init ./my-agent-team
+node ./bin/agent-team-brain.js doctor ./my-agent-team
+```
+
+Equivalent bootstrap commands are available:
+
+```bash
+agent-team-brain init [target-dir]
+agent-team-brain install [target-dir]
+agent-team-brain bootstrap [target-dir]
+```
+
+The bootstrap creates a self-contained starter layout:
+
+```text
+agent-team-brain.config.json
+agent-team-state/tasks.json
+agents/roles.md
+AGENT_TEAM_BRAIN.md
+agent-notes/sample-project/
+  brief.md
+  handoff.md
+  qa-report.md
+  lessons.md
+```
+
+Run `agent-team-brain doctor [target-dir]` before release. The doctor prints `pass`, `warn`, and `fail` lines and exits nonzero when a blocking check fails.
+
 ## Minimal runtime contract
 
 An agent team needs:
 
 - agents assigned to generic roles
-- a shared task-state file or queue
+- a shared task-state file or queue carried by this operating system
 - shared markdown artifacts
 - a QA/review gate
 - a coordinator agent that closes the loop
@@ -62,4 +95,4 @@ Use only the files that apply. Avoid process noise for tiny work.
 
 ## Status
 
-Public v0.1 draft.
+Public v0.2 draft with bootstrap and doctor commands.

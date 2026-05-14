@@ -16,8 +16,8 @@ Requirements:
 Use for contained fixes or simple probes.
 
 Requirements:
-- task card or issue
-- one owner
+- work item in task state
+- one assigned agent role
 - minimal validation note
 - QA if user-facing behavior changes
 
@@ -26,7 +26,7 @@ Requirements:
 Use for multi-file features, integrations, or meaningful workflow changes.
 
 Requirements:
-- task chain with owner and dependencies
+- task chain with assigned agent roles and dependencies
 - shared artifacts
 - one Builder owns integration
 - QA Reviewer verifies before final close

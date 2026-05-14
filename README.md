@@ -1,39 +1,34 @@
 # Agent Team Brain
 
-Agent Team Brain is a file-first operating system for running a small team of AI agents with clear roles, shared project artifacts, QA gates, and a self-improvement loop.
+Agent Team Brain is a file-first operating system for small AI agent teams: generic roles, shared project artifacts, QA gates, task-state discipline, and a self-improvement loop.
 
-It is intentionally runtime-agnostic:
-
-- no hard dependency on any memory/indexing backend
-- no hard dependency on a specific dashboard
-- no private bot or character names
-- no private paths, credentials, or deployment assumptions
+It is designed for agentic teams. Public materials use generic role names and avoid private bot, mascot, or character identities.
 
 ## Core idea
 
 Every meaningful project moves through a visible loop:
 
-1. capture the task
+1. define the work item
 2. classify size/risk
-3. assign the right role
-4. connect dependencies
+3. assign the right agent role
+4. record blockers and dependencies
 5. write shared artifacts
 6. build
 7. QA
 8. close
 9. promote lessons
 
-## Required runtime contract
+The operating system carries its own task-state model. External visualization can mirror that state, but the core design should not assume one.
 
-You need only:
+## Minimal runtime contract
 
-- a task board or issue tracker
-- agents or humans assigned to generic roles
-- shared markdown files
+An agent team needs:
+
+- agents assigned to generic roles
+- a shared task-state file or queue
+- shared markdown artifacts
 - a QA/review gate
-- a coordinator who closes the loop
-
-Optional tooling can add dashboards, auto-dispatch, artifact browsers, browser automation, or search/indexing.
+- a coordinator agent that closes the loop
 
 ## Generic roles
 

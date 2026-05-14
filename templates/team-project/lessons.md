@@ -28,4 +28,4 @@
 - [ ] memory/procedures
 - [ ] skill
 - [ ] agent SOUL/TOOLS
-- [ ] task board follow-up task
+- [ ] follow-up work item

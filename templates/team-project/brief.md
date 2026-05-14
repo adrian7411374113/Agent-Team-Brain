@@ -27,7 +27,7 @@ Out of scope:
 Tier: 0 / 1 / 2 / 3 / 4
 Reason:
 
-## task board tasks
+## Work items
 
-- Parent task:
+- Parent work item:
 - Dependencies:

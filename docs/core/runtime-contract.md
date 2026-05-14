@@ -1,42 +1,33 @@
 # Runtime Contract
 
-Agent Team Brain is a file-first operating model. It defines how agents coordinate; it does not require a specific memory backend or dashboard.
+Agent Team Brain is a file-first operating model for coordinating AI agents.
+
+The core runtime should carry task state itself. External visualization can be an adapter, but it is not the foundation of the model.
 
 ## Required capabilities
 
-1. **Task board**
-   - create/update tasks
-   - assign owner
-   - express dependencies
+1. **Task-state file or queue**
+   - create/update work items
+   - assign an agent role
+   - express blockers and dependencies
    - represent lifecycle: queued/active/success/failure
 
 2. **Agent runtime**
    - route work to named roles
-   - let workers report status and results
+   - let agents report status and results
    - support isolated work sessions when useful
 
 3. **Shared artifact folder**
    - store briefs, architecture notes, handoffs, QA reports, and lessons in plain files
-   - preserve artifacts after chat/session compaction
+   - preserve artifacts across agent turns and context resets
 
 4. **QA gate**
-   - a distinct reviewer verifies behavior against acceptance criteria
+   - a distinct QA agent verifies behavior against acceptance criteria
    - user-facing or UI work gets browser/API/static evidence as appropriate
 
-5. **Coordinator**
+5. **Coordinator agent**
    - owns scope, sequencing, final close, and durable lesson promotion
-
-## Optional capabilities
-
-- search/indexing backend
-- dashboard visualization
-- auto-dispatcher
-- artifact browser
-- browser automation
-- scheduled maintenance
-
-Optional capabilities improve the system, but must not be required for the core loop.
 
 ## Design rule
 
-If the team cannot run from tasks + agents + shared markdown files, the design is too coupled.
+If the team cannot run from task state + agents + shared markdown files, the design is too coupled.

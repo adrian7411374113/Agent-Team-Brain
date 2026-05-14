@@ -2,7 +2,7 @@
 
 Agent Team Brain is a file-first operating system for small AI agent teams: generic roles, shared project artifacts, QA gates, task-state discipline, and a self-improvement loop.
 
-It is designed for agentic teams. Public materials use generic role names and avoid private bot, mascot, or character identities.
+It is designed for agentic teams.
 
 ## Core idea
 

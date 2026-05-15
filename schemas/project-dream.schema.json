@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/project-dream.schema.json",
+  "title": "ProjectDream",
+  "type": "object",
+  "required": ["schemaVersion", "project", "currentState", "contextPack"],
+  "properties": {
+    "schemaVersion": { "const": "agent-team-brain/project-dream/v0.4" },
+    "project": { "type": "string" },
+    "currentState": { "type": "string" },
+    "decisions": { "type": "array", "items": { "type": "string" } },
+    "openQuestions": { "type": "array", "items": { "type": "string" } },
+    "nextActions": { "type": "array", "items": { "type": "string" } },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "roleDreams": { "type": "array", "items": { "type": "string" } },
+    "contextPack": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

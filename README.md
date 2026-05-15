@@ -1,6 +1,6 @@
 # Agent Team Brain
 
-Agent Team Brain is a standalone, artifact-driven operating system for AI agent teams: persistent role profiles, role-local workspaces, shared task state, project briefs, handoffs, QA gates, after-action reviews, team retros, trace scoring, agent playbooks, playbook updates, and a reviewed learning loop.
+Agent Team Brain is a standalone, artifact-driven operating system for AI agent teams: persistent role profiles, role-local workspaces, shared task state, project briefs, handoffs, QA gates, dream-cycle context hygiene, after-action reviews, team retros, trace scoring, agent playbooks, playbook updates, and a reviewed learning loop.
 
 It is designed for agentic teams and runs from files and schemas in this package. External visualization can mirror the state, but the core model does not depend on any specific UI.
 
@@ -21,7 +21,8 @@ Every meaningful project moves through a visible loop:
 11. roll up agent lessons
 12. review process-upgrade suggestions
 13. run team retros for larger efforts
-14. promote durable lessons into templates, procedures, or playbooks
+14. run a dream cycle to compress context for future sessions
+15. promote durable lessons into templates, procedures, or playbooks
 
 The operating system carries its own task-state and learning-state model. External visualization can mirror that state, but the core design should not assume one.
 
@@ -71,6 +72,17 @@ agent-notes/sample-project/
   qa-report.md
   lessons.md
   learning-retro.md
+  dreams/builder-dream.md
+  project-state.md
+  decision-log.md
+  open-questions.md
+  next-actions.md
+  context-pack.md
+templates/dream-cycle/
+  agent-dream.md
+  project-dream.md
+  team-dream.md
+  context-pack.md
 templates/learning-loop/
   after-action-review.md
   trace-score.md
@@ -93,6 +105,8 @@ An agent team needs:
 - reusable agent playbooks
 - a suggestion store for process/playbook improvements
 - team retros for larger projects
+- dream-cycle summaries for context-heavy work
+- context packs for future runtime sessions
 - a coordinator agent that closes the loop
 
 ## Team Roles
@@ -118,6 +132,18 @@ Agent Team Brain treats team members as **persistent role profiles**, not just o
 - `agent-notes/<project-slug>/` — shared project artifacts used by the whole team.
 
 See [`docs/core/persistent-role-profiles.md`](docs/core/persistent-role-profiles.md).
+
+
+## Dream Cycle / context hygiene
+
+Agent Team Brain v0.4 adds a Dream Cycle so large projects do not depend on ever-growing runtime context. A dream cycle is an offline consolidation pass:
+
+- **Agent dream** — a role summarizes its task-scoped run, decisions, risks, and next context.
+- **Project dream** — the coordinator consolidates role dreams into `project-state.md`, `decision-log.md`, `open-questions.md`, `next-actions.md`, and `context-pack.md`.
+- **Team dream** — repeated issues become reviewed suggestions, retro inputs, or playbook/template update candidates.
+- **Context reload** — future sessions load the role profile, role playbook, assigned task, latest context pack, and relevant artifacts instead of full history.
+
+See [`docs/core/dream-cycle.md`](docs/core/dream-cycle.md).
 
 ## Learning loop
 
@@ -155,10 +181,16 @@ agent-notes/<project-slug>/
   qa-report.md
   lessons.md
   learning-retro.md
+  dreams/<role-slug>-dream.md
+  project-state.md
+  decision-log.md
+  open-questions.md
+  next-actions.md
+  context-pack.md
 ```
 
 Use only the files that apply. Avoid process noise for tiny work.
 
 ## Status
 
-Public v0.3.1 draft with standalone learning-loop schemas, persistent role profiles, role-local workspaces, retros, agent playbooks, bootstrap templates, and doctor checks.
+Public v0.4 draft with dream-cycle context hygiene, persistent role profiles, role-local workspaces, standalone learning-loop schemas, retros, agent playbooks, bootstrap templates, and doctor checks.

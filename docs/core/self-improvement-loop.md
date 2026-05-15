@@ -54,3 +54,8 @@ A Coordinator reviews each suggestion. Accepted suggestions become normal update
 When publishing templates or examples, use synthetic task IDs and generic role names. Do not include private logs, customer/project data, credentials, internal URLs, screenshots, or runtime-specific dashboard details.
 
 See also: [`learning-loop.md`](learning-loop.md).
+
+
+## Dream Cycle / context hygiene
+
+For context-heavy work, run a dream cycle before future sessions reload the project. Agent dreams preserve role-specific run summaries; project dreams preserve current state, decisions, open questions, next actions, and a context pack; team dreams feed reviewed suggestions and playbook updates. This keeps continuity in durable artifacts instead of full runtime transcripts.

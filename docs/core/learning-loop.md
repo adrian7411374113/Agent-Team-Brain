@@ -12,7 +12,8 @@ It runs from plain task state plus markdown/JSON artifacts. A UI may adapt these
 4. **Agent lesson rollup** — summarize each role/agent's recent strengths, repeated issues, and pending playbook updates.
 5. **Process-upgrade suggestion** — when evidence repeats, create a reviewed suggestion instead of silently changing rules.
 6. **Playbook evolution** — accepted suggestions become normal update tasks against templates, procedures, role files, or agent playbooks.
-7. **Team retro** — larger projects produce `lessons.md` and promote only durable lessons.
+7. **Dream cycle** — context-heavy projects create compact agent/project/team dreams and a context pack for future sessions.
+8. **Team retro** — larger projects produce `lessons.md` and promote only durable lessons.
 
 ## Design rules
 
@@ -46,6 +47,10 @@ templates/learning-loop/trace-score.md
 templates/learning-loop/process-upgrade-suggestion.md
 templates/learning-loop/agent-playbook.md
 templates/learning-loop/learning-retro.md
+templates/dream-cycle/agent-dream.md
+templates/dream-cycle/project-dream.md
+templates/dream-cycle/team-dream.md
+templates/dream-cycle/context-pack.md
 ```
 
 ## Trace scoring dimensions

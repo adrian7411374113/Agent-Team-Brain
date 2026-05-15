@@ -38,7 +38,16 @@
 - doctor checks for role profiles and role-local workspaces
 - public docs clarifying persistent role identity vs task-scoped runtime sessions
 
-## v0.4 — task-state ergonomics
+## v0.4 — dream cycle and context hygiene
+
+- agent dream, project dream, team dream, and context pack templates
+- schemas for `AgentDream`, `ProjectDream`, and `TeamDream`
+- bootstrap-generated sample dream artifacts and context pack
+- doctor checks for dream-cycle templates and sample context summaries
+- context reload contract for future task-scoped runtime sessions
+- token-bloat prevention through durable summarized state
+
+## v0.5 — task-state ergonomics
 
 - task add/update helpers
 - stricter schema documentation

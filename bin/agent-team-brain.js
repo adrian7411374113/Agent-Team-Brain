@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-const VERSION = '0.3.1';
+const VERSION = '0.4.0';
 const ROLES = ['Coordinator', 'Architect', 'UX Reviewer', 'Scout / Assistant Coder', 'Analyst', 'Builder', 'QA Reviewer'];
 const LIFECYCLE = ['queued', 'active', 'blocked', 'review', 'success', 'failure'];
 
@@ -13,7 +13,7 @@ function roleSlug(role) {
 
 const STARTER_FILES = {
   'agent-team-brain.config.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/v0.3',
+    schemaVersion: 'agent-team-brain/v0.4',
     artifactRoot: 'agent-notes',
     taskState: 'agent-team-state/tasks.json',
     qaGate: { required: true, role: 'QA Reviewer' },
@@ -29,10 +29,16 @@ const STARTER_FILES = {
       roleWorkspaceRoot: 'agents/workspaces',
       sharedWorkspaceRoot: 'agent-notes',
       runtimeBindings: 'agents/runtime-bindings.example.json'
+    },
+    dreaming: {
+      enabled: true,
+      templateRoot: 'templates/dream-cycle',
+      contextPackTemplate: 'templates/dream-cycle/context-pack.md',
+      projectDreamTemplate: 'templates/dream-cycle/project-dream.md'
     }
   }, null, 2) + '\n',
   'agent-team-state/tasks.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/tasks/v0.3',
+    schemaVersion: 'agent-team-brain/tasks/v0.4',
     tasks: [
       {
         id: 'sample-brief',
@@ -76,7 +82,7 @@ const STARTER_FILES = {
     ]
   }, null, 2) + '\n',
   'agent-team-state/learning-suggestions.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/learning-suggestions/v0.3',
+    schemaVersion: 'agent-team-brain/learning-suggestions/v0.4',
     suggestions: []
   }, null, 2) + '\n',
   'agents/playbooks/coordinator.md': () => `# Coordinator Playbook
@@ -99,7 +105,7 @@ Own scope, sequencing, final close, and durable lesson promotion.
 - Keep adapters separate from the standalone operating model.
 `,
   'agents/runtime-bindings.example.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/runtime-bindings/v0.3',
+    schemaVersion: 'agent-team-brain/runtime-bindings/v0.4',
     note: 'Optional: map persistent role profiles to your runtime sessions, workers, or tools. Keep provider-specific details out of the core files.',
     bindings: ROLES.map((role) => ({ role, profile: `agents/roles/${roleSlug(role)}.md`, workspace: `agents/workspaces/${roleSlug(role)}` }))
   }, null, 2) + '\n',
@@ -429,6 +435,199 @@ Trace scores are coaching signals, not rankings.
 
 -
 `,
+  'templates/dream-cycle/agent-dream.md': () => `# Agent Dream
+
+## Role
+
+
+## Source task / run
+
+- Task ID:
+- Project:
+- Source artifacts:
+
+## What happened
+
+-
+
+## What changed
+
+-
+
+## What matters next
+
+-
+
+## Assumptions made
+
+-
+
+## Risks remaining
+
+-
+
+## Role lesson candidates
+
+-
+
+## Artifacts updated
+
+-
+
+## Recommended context for next run
+
+-
+`,
+  'templates/dream-cycle/project-dream.md': () => `# Project Dream
+
+## Project
+
+
+## Current state
+
+-
+
+## Decisions made
+
+-
+
+## Open questions
+
+-
+
+## Next actions
+
+-
+
+## Active risks
+
+-
+
+## Artifact index
+
+-
+
+## Role dream inputs
+
+-
+
+## Context reload packet
+
+Recommended files for the next runtime session:
+
+-
+`,
+  'templates/dream-cycle/team-dream.md': () => `# Team Dream
+
+## Period / scope
+
+
+## Repeated patterns
+
+-
+
+## Coordination issues
+
+-
+
+## Handoff issues
+
+-
+
+## QA / validation issues
+
+-
+
+## Playbook update candidates
+
+-
+
+## Template / procedure update candidates
+
+-
+
+## Suggested follow-up tasks
+
+-
+`,
+  'templates/dream-cycle/context-pack.md': () => `# Context Pack
+
+## Purpose
+
+Compact state packet for the next task-scoped runtime session.
+
+## Load first
+
+-
+
+## Current state
+
+-
+
+## Decisions
+
+-
+
+## Open questions
+
+-
+
+## Next actions
+
+-
+
+## Do not reload unless needed
+
+-
+`,
+  'agent-notes/sample-project/dreams/builder-dream.md': () => `# Agent Dream
+
+## Role
+
+Builder
+
+## What happened
+
+- Created a starter project artifact set.
+
+## What matters next
+
+- QA Reviewer should verify the starter flow and doctor output.
+
+## Recommended context for next run
+
+- agent-notes/sample-project/context-pack.md
+- agent-notes/sample-project/handoff.md
+`,
+  'agent-notes/sample-project/project-state.md': () => `# Project State
+
+The sample project demonstrates a compact artifact-driven team flow: brief, build handoff, QA report, lessons, and context pack.
+`,
+  'agent-notes/sample-project/decision-log.md': () => `# Decision Log
+
+- Use plain files as the portable source of truth.
+- Keep runtime-specific bindings optional.
+`,
+  'agent-notes/sample-project/open-questions.md': () => `# Open Questions
+
+- None for the starter sample.
+`,
+  'agent-notes/sample-project/next-actions.md': () => `# Next Actions
+
+- Run agent-team-brain doctor.
+`,
+  'agent-notes/sample-project/context-pack.md': () => `# Context Pack
+
+## Load first
+
+- agent-team-state/tasks.json
+- agent-notes/sample-project/project-state.md
+- agent-notes/sample-project/qa-report.md
+
+## Current state
+
+Starter sample is complete and ready for doctor validation.
+`,
   'agent-notes/sample-project/brief.md': () => `# Sample Project Brief\n\n## Goal\n\nDemonstrate a complete agentic-team task flow.\n\n## Acceptance Criteria\n\n- Task state exists in this repository.\n- Builder handoff exists.\n- QA Reviewer report exists and closes the gate.\n`,
   'agent-notes/sample-project/handoff.md': () => `# Builder Handoff\n\n## Changes\n\n- Created a starter project artifact set.\n- Kept task state local to the operating system.\n\n## Validation\n\n- Run \`agent-team-brain doctor\`.\n`,
   'agent-notes/sample-project/qa-report.md': () => `# QA Report\n\n## Result\n\nPASS\n\n## Evidence\n\n- Config, task-state, artifacts, roles, and sample task flow are present.\n- QA gate is represented by a QA Reviewer task.\n`,
@@ -438,7 +637,7 @@ Trace scores are coaching signals, not rankings.
 };
 
 function usage(exitCode = 0) {
-  console.log(`agent-team-brain v${VERSION}\n\nUsage:\n  agent-team-brain init [target-dir] [--force]\n  agent-team-brain install [target-dir] [--force]\n  agent-team-brain bootstrap [target-dir] [--force]\n  agent-team-brain doctor [target-dir]\n\nCommands:\n  init/install/bootstrap  Create a starter Agent Team Brain layout.\n  doctor                  Validate config, task-state, artifacts, persistent roles, QA gate, learning loop, and sample flow.`);
+  console.log(`agent-team-brain v${VERSION}\n\nUsage:\n  agent-team-brain init [target-dir] [--force]\n  agent-team-brain install [target-dir] [--force]\n  agent-team-brain bootstrap [target-dir] [--force]\n  agent-team-brain doctor [target-dir]\n\nCommands:\n  init/install/bootstrap  Create a starter Agent Team Brain layout.\n  doctor                  Validate config, task-state, artifacts, persistent roles, QA gate, dream cycle, learning loop, and sample flow.`);
   process.exit(exitCode);
 }
 
@@ -494,8 +693,8 @@ function validateDoctor(targetDir) {
   const config = readJson(configPath, checks);
   if (!config) return printDoctor(checks);
 
-  if (config.schemaVersion === 'agent-team-brain/v0.3') checks.pass('config schemaVersion is v0.3');
-  else checks.fail('config schemaVersion must be agent-team-brain/v0.3');
+  if (config.schemaVersion === 'agent-team-brain/v0.4') checks.pass('config schemaVersion is v0.4');
+  else checks.fail('config schemaVersion must be agent-team-brain/v0.4');
 
   const missingRoles = ROLES.filter((role) => !config.roles?.includes(role));
   const extraRoles = (config.roles || []).filter((role) => !ROLES.includes(role));
@@ -581,6 +780,24 @@ function validateDoctor(targetDir) {
   const runtimeBindings = path.join(targetDir, config.runtime?.runtimeBindings || 'agents/runtime-bindings.example.json');
   if (fs.existsSync(runtimeBindings)) checks.pass('runtime bindings example exists');
   else checks.warn('runtime bindings example is recommended for mapping profiles to your agent runtime');
+
+  const dreamTemplateRoot = path.join(targetDir, config.dreaming?.templateRoot || 'templates/dream-cycle');
+  const dreamTemplates = ['agent-dream.md', 'project-dream.md', 'team-dream.md', 'context-pack.md'];
+  const missingDreamTemplates = dreamTemplates.filter((file) => !fs.existsSync(path.join(dreamTemplateRoot, file)));
+  if (missingDreamTemplates.length === 0) checks.pass('dream-cycle templates exist');
+  else checks.fail(`dream-cycle templates are missing: ${missingDreamTemplates.join(', ')}`);
+
+  const sampleContextPack = path.join(targetDir, artifactRoot, 'sample-project/context-pack.md');
+  if (fs.existsSync(sampleContextPack)) checks.pass('sample project context pack exists');
+  else checks.warn('sample project context pack is recommended for context reload');
+
+  const sampleProjectState = path.join(targetDir, artifactRoot, 'sample-project/project-state.md');
+  if (fs.existsSync(sampleProjectState)) checks.pass('sample project state summary exists');
+  else checks.warn('sample project state summary is recommended for context hygiene');
+
+  const sampleDream = path.join(targetDir, artifactRoot, 'sample-project/dreams/builder-dream.md');
+  if (fs.existsSync(sampleDream)) checks.pass('sample agent dream exists');
+  else checks.warn('sample agent dream is recommended for dream-cycle examples');
 
   return printDoctor(checks);
 }

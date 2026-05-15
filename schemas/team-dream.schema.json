@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/team-dream.schema.json",
+  "title": "TeamDream",
+  "type": "object",
+  "required": ["schemaVersion", "scope", "patterns", "suggestions"],
+  "properties": {
+    "schemaVersion": { "const": "agent-team-brain/team-dream/v0.4" },
+    "scope": { "type": "string" },
+    "patterns": { "type": "array", "items": { "type": "string" } },
+    "coordinationIssues": { "type": "array", "items": { "type": "string" } },
+    "handoffIssues": { "type": "array", "items": { "type": "string" } },
+    "qaIssues": { "type": "array", "items": { "type": "string" } },
+    "playbookCandidates": { "type": "array", "items": { "type": "string" } },
+    "templateCandidates": { "type": "array", "items": { "type": "string" } },
+    "suggestions": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

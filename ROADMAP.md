@@ -24,6 +24,8 @@
 - agent lesson rollup schema
 - learning suggestion schema/lifecycle
 - playbook starter template
+- team learning retro template and schema
+- agent playbook schema
 - learning suggestions state file
 - doctor checks for standalone learning-loop artifacts
 - explicit adapter boundary: no dashboard, private runtime, or product-specific dependency in the core model

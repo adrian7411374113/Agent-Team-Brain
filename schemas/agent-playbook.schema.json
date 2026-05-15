@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/agent-playbook.schema.json",
+  "title": "AgentPlaybook",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "role", "mission", "updatedAt"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "role": { "type": "string", "maxLength": 80 },
+    "mission": { "type": "string", "maxLength": 1200 },
+    "beforeStarting": { "type": "array", "items": { "type": "string", "maxLength": 200 } },
+    "goodPatterns": { "type": "array", "items": { "type": "string", "maxLength": 200 } },
+    "commonFailureModes": { "type": "array", "items": { "type": "string", "maxLength": 200 } },
+    "handoffExpectations": { "type": "array", "items": { "type": "string", "maxLength": 200 } },
+    "qaValidationExpectations": { "type": "array", "items": { "type": "string", "maxLength": 200 } },
+    "promotedLessonIds": { "type": "array", "items": { "type": "string", "maxLength": 120 } },
+    "reviewCadence": { "type": "string", "maxLength": 500 },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "updatedBy": { "type": ["string", "null"], "maxLength": 80 }
+  }
+}

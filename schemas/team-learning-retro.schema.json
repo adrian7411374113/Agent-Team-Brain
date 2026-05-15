@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/team-learning-retro.schema.json",
+  "title": "TeamLearningRetro",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "projectId", "summary", "createdAt", "reviewedBy"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "projectId": { "type": "string", "maxLength": 160 },
+    "summary": { "type": "string", "maxLength": 2000 },
+    "traceScoringThemes": { "type": "array", "items": { "type": "string", "maxLength": 240 } },
+    "agentLessonRollups": { "type": "array", "items": { "type": "string", "maxLength": 240 } },
+    "repeatedIssues": { "type": "array", "items": { "type": "string", "maxLength": 240 } },
+    "acceptedProcessUpgrades": { "type": "array", "items": { "type": "string", "maxLength": 240 } },
+    "dismissedSuggestions": { "type": "array", "items": { "type": "string", "maxLength": 240 } },
+    "playbookUpdates": { "type": "array", "items": { "type": "string", "maxLength": 240 } },
+    "promotionTaskIds": { "type": "array", "items": { "type": "string", "maxLength": 120 } },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "reviewedBy": { "type": "string", "maxLength": 80 }
+  }
+}

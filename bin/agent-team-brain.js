@@ -120,6 +120,32 @@ workflow, handoff, qa, tooling, ux, architecture, coordination, memory, other
 
 none, project lessons, template, procedure, tools note, skill, agent playbook
 `,
+  'templates/learning-loop/trace-score.md': () => `# Trace Score
+
+Trace scores are coaching signals, not rankings.
+
+## Source task
+
+- Task ID:
+- Role:
+- Confidence: low / medium / high
+- Overall: 0–100
+
+## Dimensions
+
+| Dimension | Score 0–5 | Driver |
+|---|---:|---|
+| Brief clarity |  |  |
+| Execution trace |  |  |
+| Validation quality |  |  |
+| Coordination quality |  |  |
+| Rework risk |  |  |
+| Learning value |  |  |
+
+## Drivers
+
+-
+`,
   'templates/learning-loop/process-upgrade-suggestion.md': () => `# Process Upgrade Suggestion
 
 ## Suggestion
@@ -140,6 +166,66 @@ none, project lessons, template, procedure, tools note, skill, agent playbook
 - [ ] Accept → create update task
 - [ ] Dismiss
 `,
+  'templates/learning-loop/agent-playbook.md': () => `# Agent Playbook
+
+## Role
+
+
+## Mission
+
+
+## Before starting
+
+-
+
+## Good patterns
+
+-
+
+## Common failure modes
+
+-
+
+## Handoff expectations
+
+-
+
+## QA / validation expectations
+
+-
+
+## Recent promoted lessons
+
+-
+`,
+  'templates/learning-loop/learning-retro.md': () => `# Team Learning Retro
+
+## Project
+
+
+## Summary
+
+
+## Trace scoring themes
+
+-
+
+## Agent lesson rollups
+
+-
+
+## Repeated issues
+
+-
+
+## Accepted process upgrades
+
+-
+
+## Playbook/template/procedure updates
+
+-
+`,
   'agent-notes/sample-project/brief.md': () => `# Sample Project Brief\n\n## Goal\n\nDemonstrate a complete agentic-team task flow.\n\n## Acceptance Criteria\n\n- Task state exists in this repository.\n- Builder handoff exists.\n- QA Reviewer report exists and closes the gate.\n`,
   'agent-notes/sample-project/handoff.md': () => `# Builder Handoff\n\n## Changes\n\n- Created a starter project artifact set.\n- Kept task state local to the operating system.\n\n## Validation\n\n- Run \`agent-team-brain doctor\`.\n`,
   'agent-notes/sample-project/qa-report.md': () => `# QA Report\n\n## Result\n\nPASS\n\n## Evidence\n\n- Config, task-state, artifacts, roles, and sample task flow are present.\n- QA gate is represented by a QA Reviewer task.\n`,
@@ -149,7 +235,7 @@ none, project lessons, template, procedure, tools note, skill, agent playbook
 };
 
 function usage(exitCode = 0) {
-  console.log(`agent-team-brain v${VERSION}\n\nUsage:\n  agent-team-brain init [target-dir] [--force]\n  agent-team-brain install [target-dir] [--force]\n  agent-team-brain bootstrap [target-dir] [--force]\n  agent-team-brain doctor [target-dir]\n\nCommands:\n  init/install/bootstrap  Create a starter Agent Team Brain layout.\n  doctor                  Validate config, task-state, artifacts, roles, QA gate, and sample flow.`);
+  console.log(`agent-team-brain v${VERSION}\n\nUsage:\n  agent-team-brain init [target-dir] [--force]\n  agent-team-brain install [target-dir] [--force]\n  agent-team-brain bootstrap [target-dir] [--force]\n  agent-team-brain doctor [target-dir]\n\nCommands:\n  init/install/bootstrap  Create a starter Agent Team Brain layout.\n  doctor                  Validate config, task-state, artifacts, roles, QA gate, learning loop, and sample flow.`);
   process.exit(exitCode);
 }
 
@@ -258,6 +344,18 @@ function validateDoctor(targetDir) {
   const afterActionTemplate = path.join(targetDir, config.learning?.afterActionTemplate || 'templates/learning-loop/after-action-review.md');
   if (fs.existsSync(afterActionTemplate)) checks.pass('after-action review template exists');
   else checks.fail('after-action review template is missing');
+
+  const traceScoreTemplate = path.join(targetDir, 'templates/learning-loop/trace-score.md');
+  if (fs.existsSync(traceScoreTemplate)) checks.pass('trace score template exists');
+  else checks.warn('trace score template is recommended for learning-loop v0.3');
+
+  const retroTemplate = path.join(targetDir, 'templates/learning-loop/learning-retro.md');
+  if (fs.existsSync(retroTemplate)) checks.pass('team learning retro template exists');
+  else checks.warn('team learning retro template is recommended for larger projects');
+
+  const agentPlaybookTemplate = path.join(targetDir, 'templates/learning-loop/agent-playbook.md');
+  if (fs.existsSync(agentPlaybookTemplate)) checks.pass('agent playbook template exists');
+  else checks.warn('agent playbook template is recommended for playbook evolution');
 
   const playbookRoot = path.join(targetDir, config.learning?.playbookRoot || 'agents/playbooks');
   if (fs.existsSync(playbookRoot)) checks.pass('agent playbook root exists');

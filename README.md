@@ -1,6 +1,6 @@
 # Agent Team Brain
 
-Agent Team Brain is a file-first operating system for small AI agent teams: team roles, shared project artifacts, QA gates, task-state discipline, and a self-improvement loop.
+Agent Team Brain is an artifact-driven operating system for AI agent teams: team roles, shared task state, project briefs, handoffs, QA gates, and a learning loop.
 
 It is designed for agentic teams.
 

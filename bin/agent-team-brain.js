@@ -65,7 +65,7 @@ const STARTER_FILES = {
   'agent-notes/sample-project/qa-report.md': () => `# QA Report\n\n## Result\n\nPASS\n\n## Evidence\n\n- Config, task-state, artifacts, roles, and sample task flow are present.\n- QA gate is represented by a QA Reviewer task.\n`,
   'agent-notes/sample-project/lessons.md': () => `# Lessons\n\n- Keep coordination state in plain files.\n- Promote useful patterns back into the starter after QA.\n`,
   'agents/roles.md': () => `# Agent Roles\n\n${ROLES.map((role) => `- ${role}`).join('\n')}\n\nOnly team roles are used by this starter.\n`,
-  'AGENT_TEAM_BRAIN.md': () => `# Agent Team Brain Starter\n\nThis folder is a file-first operating system starter for an AI agent team.\n\n## Loop\n\n1. Add or update tasks in \`agent-team-state/tasks.json\`.\n2. Assign each task to a team role.\n3. Write project artifacts under \`agent-notes/<project-slug>/\`.\n4. Move build work through QA Reviewer before closing.\n5. Run \`agent-team-brain doctor\` before release.\n`
+  'AGENT_TEAM_BRAIN.md': () => `# Agent Team Brain Starter\n\nThis folder is an artifact-driven operating system starter for an AI agent team.\n\n## Loop\n\n1. Add or update tasks in \`agent-team-state/tasks.json\`.\n2. Assign each task to a team role.\n3. Write project artifacts under \`agent-notes/<project-slug>/\`.\n4. Move build work through QA Reviewer before closing.\n5. Run \`agent-team-brain doctor\` before release.\n`
 };
 
 function usage(exitCode = 0) {

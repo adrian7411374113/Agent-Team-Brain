@@ -1,6 +1,6 @@
 # Runtime Contract
 
-Agent Team Brain is a file-first operating model for coordinating AI agents.
+Agent Team Brain is an artifact-driven operating model for coordinating AI agent teams.
 
 The core runtime should carry task state itself. External visualization can be an adapter, but it is not the foundation of the model.
 

@@ -68,7 +68,7 @@ An agent team needs:
 - Coordinator
 - Architect
 - UX Reviewer
-- Scout
+- Scout / Assistant Coder
 - Analyst
 - Builder
 - QA Reviewer

@@ -30,6 +30,14 @@
 - doctor checks for standalone learning-loop artifacts
 - explicit adapter boundary: no dashboard, private runtime, or product-specific dependency in the core model
 
+## v0.3.1 — persistent role profiles and workspaces
+
+- persistent role profile files under `agents/roles/`
+- role-local workspaces under `agents/workspaces/<role-slug>/`
+- optional runtime binding example for mapping profiles to external runtimes
+- doctor checks for role profiles and role-local workspaces
+- public docs clarifying persistent role identity vs task-scoped runtime sessions
+
 ## v0.4 — task-state ergonomics
 
 - task add/update helpers

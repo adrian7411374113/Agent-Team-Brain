@@ -3,9 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-const VERSION = '0.3.0';
+const VERSION = '0.3.1';
 const ROLES = ['Coordinator', 'Architect', 'UX Reviewer', 'Scout / Assistant Coder', 'Analyst', 'Builder', 'QA Reviewer'];
 const LIFECYCLE = ['queued', 'active', 'blocked', 'review', 'success', 'failure'];
+
+function roleSlug(role) {
+  return role.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
 
 const STARTER_FILES = {
   'agent-team-brain.config.json': () => JSON.stringify({
@@ -19,6 +23,12 @@ const STARTER_FILES = {
       afterActionTemplate: 'templates/learning-loop/after-action-review.md',
       suggestions: 'agent-team-state/learning-suggestions.json',
       playbookRoot: 'agents/playbooks'
+    },
+    runtime: {
+      roleProfileRoot: 'agents/roles',
+      roleWorkspaceRoot: 'agents/workspaces',
+      sharedWorkspaceRoot: 'agent-notes',
+      runtimeBindings: 'agents/runtime-bindings.example.json'
     }
   }, null, 2) + '\n',
   'agent-team-state/tasks.json': () => JSON.stringify({
@@ -87,6 +97,199 @@ Own scope, sequencing, final close, and durable lesson promotion.
 ## Recent promoted lessons
 
 - Keep adapters separate from the standalone operating model.
+`,
+  'agents/runtime-bindings.example.json': () => JSON.stringify({
+    schemaVersion: 'agent-team-brain/runtime-bindings/v0.3',
+    note: 'Optional: map persistent role profiles to your runtime sessions, workers, or tools. Keep provider-specific details out of the core files.',
+    bindings: ROLES.map((role) => ({ role, profile: `agents/roles/${roleSlug(role)}.md`, workspace: `agents/workspaces/${roleSlug(role)}` }))
+  }, null, 2) + '\n',
+  'agents/workspaces/README.md': () => `# Agent Workspaces
+
+These folders are durable, role-local scratch spaces. They are optional but recommended when a role is run repeatedly.
+
+Use them for:
+
+- current focus
+- local scratch notes
+- lessons in progress before promotion
+- runtime-specific handoff reminders
+
+Do not store secrets. Shared project artifacts belong in \`agent-notes/<project-slug>/\`.
+`,
+  'agents/roles/coordinator.md': () => `# Coordinator Profile
+
+## Mission
+
+Own scope, sequencing, synthesis, closeout, and durable lesson promotion.
+
+## Responsibilities
+
+- Read shared task state before acting.
+- Write durable outputs to the shared project artifact folder.
+- Keep role-local scratch notes in this role workspace.
+- Promote durable lessons only through reviewed suggestions or retros.
+
+## Runtime binding
+
+This profile can be loaded by any compatible agent runtime. The profile is persistent; individual runs are task-scoped.
+`,
+  'agents/workspaces/coordinator/current-focus.md': () => `# Current Focus — Coordinator
+
+- No active focus yet.
+`,
+  'agents/workspaces/coordinator/scratch.md': () => `# Scratch — Coordinator
+
+Temporary notes for this persistent role. Promote durable lessons to playbooks through the learning loop.
+`,
+  'agents/roles/architect.md': () => `# Architect Profile
+
+## Mission
+
+Design data/control flow, interfaces, failure modes, migration, and rollback.
+
+## Responsibilities
+
+- Read shared task state before acting.
+- Write durable outputs to the shared project artifact folder.
+- Keep role-local scratch notes in this role workspace.
+- Promote durable lessons only through reviewed suggestions or retros.
+
+## Runtime binding
+
+This profile can be loaded by any compatible agent runtime. The profile is persistent; individual runs are task-scoped.
+`,
+  'agents/workspaces/architect/current-focus.md': () => `# Current Focus — Architect
+
+- No active focus yet.
+`,
+  'agents/workspaces/architect/scratch.md': () => `# Scratch — Architect
+
+Temporary notes for this persistent role. Promote durable lessons to playbooks through the learning loop.
+`,
+  'agents/roles/ux-reviewer.md': () => `# UX Reviewer Profile
+
+## Mission
+
+Review layout, information hierarchy, accessibility, mobile usability, and interaction polish.
+
+## Responsibilities
+
+- Read shared task state before acting.
+- Write durable outputs to the shared project artifact folder.
+- Keep role-local scratch notes in this role workspace.
+- Promote durable lessons only through reviewed suggestions or retros.
+
+## Runtime binding
+
+This profile can be loaded by any compatible agent runtime. The profile is persistent; individual runs are task-scoped.
+`,
+  'agents/workspaces/ux-reviewer/current-focus.md': () => `# Current Focus — UX Reviewer
+
+- No active focus yet.
+`,
+  'agents/workspaces/ux-reviewer/scratch.md': () => `# Scratch — UX Reviewer
+
+Temporary notes for this persistent role. Promote durable lessons to playbooks through the learning loop.
+`,
+  'agents/roles/scout-assistant-coder.md': () => `# Scout / Assistant Coder Profile
+
+## Mission
+
+Research unknowns, probe APIs, build prototypes, write small isolated code, and validate implementation assumptions before the main build.
+
+## Responsibilities
+
+- Read shared task state before acting.
+- Write durable outputs to the shared project artifact folder.
+- Keep role-local scratch notes in this role workspace.
+- Promote durable lessons only through reviewed suggestions or retros.
+
+## Runtime binding
+
+This profile can be loaded by any compatible agent runtime. The profile is persistent; individual runs are task-scoped.
+`,
+  'agents/workspaces/scout-assistant-coder/current-focus.md': () => `# Current Focus — Scout / Assistant Coder
+
+- No active focus yet.
+`,
+  'agents/workspaces/scout-assistant-coder/scratch.md': () => `# Scratch — Scout / Assistant Coder
+
+Temporary notes for this persistent role. Promote durable lessons to playbooks through the learning loop.
+`,
+  'agents/roles/analyst.md': () => `# Analyst Profile
+
+## Mission
+
+Handle domain analysis, data interpretation, and briefing-quality synthesis.
+
+## Responsibilities
+
+- Read shared task state before acting.
+- Write durable outputs to the shared project artifact folder.
+- Keep role-local scratch notes in this role workspace.
+- Promote durable lessons only through reviewed suggestions or retros.
+
+## Runtime binding
+
+This profile can be loaded by any compatible agent runtime. The profile is persistent; individual runs are task-scoped.
+`,
+  'agents/workspaces/analyst/current-focus.md': () => `# Current Focus — Analyst
+
+- No active focus yet.
+`,
+  'agents/workspaces/analyst/scratch.md': () => `# Scratch — Analyst
+
+Temporary notes for this persistent role. Promote durable lessons to playbooks through the learning loop.
+`,
+  'agents/roles/builder.md': () => `# Builder Profile
+
+## Mission
+
+Implement and integrate the main change while keeping the handoff clear for review.
+
+## Responsibilities
+
+- Read shared task state before acting.
+- Write durable outputs to the shared project artifact folder.
+- Keep role-local scratch notes in this role workspace.
+- Promote durable lessons only through reviewed suggestions or retros.
+
+## Runtime binding
+
+This profile can be loaded by any compatible agent runtime. The profile is persistent; individual runs are task-scoped.
+`,
+  'agents/workspaces/builder/current-focus.md': () => `# Current Focus — Builder
+
+- No active focus yet.
+`,
+  'agents/workspaces/builder/scratch.md': () => `# Scratch — Builder
+
+Temporary notes for this persistent role. Promote durable lessons to playbooks through the learning loop.
+`,
+  'agents/roles/qa-reviewer.md': () => `# QA Reviewer Profile
+
+## Mission
+
+Verify acceptance criteria, regression risk, behavior, and release confidence.
+
+## Responsibilities
+
+- Read shared task state before acting.
+- Write durable outputs to the shared project artifact folder.
+- Keep role-local scratch notes in this role workspace.
+- Promote durable lessons only through reviewed suggestions or retros.
+
+## Runtime binding
+
+This profile can be loaded by any compatible agent runtime. The profile is persistent; individual runs are task-scoped.
+`,
+  'agents/workspaces/qa-reviewer/current-focus.md': () => `# Current Focus — QA Reviewer
+
+- No active focus yet.
+`,
+  'agents/workspaces/qa-reviewer/scratch.md': () => `# Scratch — QA Reviewer
+
+Temporary notes for this persistent role. Promote durable lessons to playbooks through the learning loop.
 `,
   'templates/learning-loop/after-action-review.md': () => `# After-Action Review
 
@@ -231,11 +434,11 @@ Trace scores are coaching signals, not rankings.
   'agent-notes/sample-project/qa-report.md': () => `# QA Report\n\n## Result\n\nPASS\n\n## Evidence\n\n- Config, task-state, artifacts, roles, and sample task flow are present.\n- QA gate is represented by a QA Reviewer task.\n`,
   'agent-notes/sample-project/lessons.md': () => `# Lessons\n\n- Keep coordination state in plain files.\n- Promote useful patterns back into the starter after QA.\n`,
   'agents/roles.md': () => `# Agent Roles\n\n${ROLES.map((role) => `- ${role}`).join('\n')}\n\nOnly team roles are used by this starter.\n`,
-  'AGENT_TEAM_BRAIN.md': () => `# Agent Team Brain Starter\n\nThis folder is an artifact-driven operating system starter for an AI agent team.\n\n## Loop\n\n1. Add or update tasks in \`agent-team-state/tasks.json\`.\n2. Assign each task to a team role.\n3. Write project artifacts under \`agent-notes/<project-slug>/\`.\n4. Move build work through QA Reviewer before closing.\n5. Run \`agent-team-brain doctor\` before release.\n`
+  'AGENT_TEAM_BRAIN.md': () => `# Agent Team Brain Starter\n\nThis folder is an artifact-driven operating system starter for an AI agent team.\n\n## Loop\n\n1. Add or update tasks in \`agent-team-state/tasks.json\`.\n2. Assign each task to a persistent team role profile.\n3. Use \`agents/workspaces/<role-slug>/\` for role-local scratch notes.\n4. Write project artifacts under \`agent-notes/<project-slug>/\`.\n5. Move build work through QA Reviewer before closing.\n6. Run \`agent-team-brain doctor\` before release.\n`
 };
 
 function usage(exitCode = 0) {
-  console.log(`agent-team-brain v${VERSION}\n\nUsage:\n  agent-team-brain init [target-dir] [--force]\n  agent-team-brain install [target-dir] [--force]\n  agent-team-brain bootstrap [target-dir] [--force]\n  agent-team-brain doctor [target-dir]\n\nCommands:\n  init/install/bootstrap  Create a starter Agent Team Brain layout.\n  doctor                  Validate config, task-state, artifacts, roles, QA gate, learning loop, and sample flow.`);
+  console.log(`agent-team-brain v${VERSION}\n\nUsage:\n  agent-team-brain init [target-dir] [--force]\n  agent-team-brain install [target-dir] [--force]\n  agent-team-brain bootstrap [target-dir] [--force]\n  agent-team-brain doctor [target-dir]\n\nCommands:\n  init/install/bootstrap  Create a starter Agent Team Brain layout.\n  doctor                  Validate config, task-state, artifacts, persistent roles, QA gate, learning loop, and sample flow.`);
   process.exit(exitCode);
 }
 
@@ -364,6 +567,20 @@ function validateDoctor(targetDir) {
   const roleFile = path.join(targetDir, 'agents/roles.md');
   if (fs.existsSync(roleFile)) checks.pass('roles artifact exists');
   else checks.warn('roles artifact is optional but recommended: agents/roles.md');
+
+  const roleProfileRoot = path.join(targetDir, config.runtime?.roleProfileRoot || 'agents/roles');
+  const missingProfiles = ROLES.map(roleSlug).filter((slug) => !fs.existsSync(path.join(roleProfileRoot, `${slug}.md`)));
+  if (missingProfiles.length === 0) checks.pass('persistent role profiles exist');
+  else checks.warn(`persistent role profiles are recommended: ${missingProfiles.join(', ')}`);
+
+  const workspaceRoot = path.join(targetDir, config.runtime?.roleWorkspaceRoot || 'agents/workspaces');
+  const missingWorkspaces = ROLES.map(roleSlug).filter((slug) => !fs.existsSync(path.join(workspaceRoot, slug, 'scratch.md')));
+  if (missingWorkspaces.length === 0) checks.pass('role-local workspaces exist');
+  else checks.warn(`role-local workspaces are recommended: ${missingWorkspaces.join(', ')}`);
+
+  const runtimeBindings = path.join(targetDir, config.runtime?.runtimeBindings || 'agents/runtime-bindings.example.json');
+  if (fs.existsSync(runtimeBindings)) checks.pass('runtime bindings example exists');
+  else checks.warn('runtime bindings example is recommended for mapping profiles to your agent runtime');
 
   return printDoctor(checks);
 }

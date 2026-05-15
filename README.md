@@ -1,6 +1,6 @@
 # Agent Team Brain
 
-Agent Team Brain is a standalone, artifact-driven operating system for AI agent teams: team roles, shared task state, project briefs, handoffs, QA gates, after-action reviews, team retros, trace scoring, agent playbooks, playbook updates, and a reviewed learning loop.
+Agent Team Brain is a standalone, artifact-driven operating system for AI agent teams: persistent role profiles, role-local workspaces, shared task state, project briefs, handoffs, QA gates, after-action reviews, team retros, trace scoring, agent playbooks, playbook updates, and a reviewed learning loop.
 
 It is designed for agentic teams and runs from files and schemas in this package. External visualization can mirror the state, but the core model does not depend on any specific UI.
 
@@ -51,7 +51,19 @@ agent-team-state/
   learning-suggestions.json
 agents/
   roles.md
+  roles/
+    coordinator.md
+    architect.md
+    ux-reviewer.md
+    scout-assistant-coder.md
+    analyst.md
+    builder.md
+    qa-reviewer.md
   playbooks/coordinator.md
+  workspaces/<role-slug>/
+    current-focus.md
+    scratch.md
+  runtime-bindings.example.json
 AGENT_TEAM_BRAIN.md
 agent-notes/sample-project/
   brief.md
@@ -95,6 +107,18 @@ An agent team needs:
 
 See [`docs/core/roles.md`](docs/core/roles.md).
 
+
+## Persistent team members
+
+Agent Team Brain treats team members as **persistent role profiles**, not just one-off task runs. A runtime can spin up a task-scoped session for Builder, Scout / Assistant Coder, QA Reviewer, or any other role, but the durable identity lives in files:
+
+- `agents/roles/<role-slug>.md` — mission and responsibilities for the persistent role.
+- `agents/workspaces/<role-slug>/` — role-local scratch and current-focus notes.
+- `agents/playbooks/<role-slug>.md` — durable operating rules promoted through reviews and retros.
+- `agent-notes/<project-slug>/` — shared project artifacts used by the whole team.
+
+See [`docs/core/persistent-role-profiles.md`](docs/core/persistent-role-profiles.md).
+
 ## Learning loop
 
 The standalone learning loop includes:
@@ -137,4 +161,4 @@ Use only the files that apply. Avoid process noise for tiny work.
 
 ## Status
 
-Public v0.3 draft with standalone learning-loop schemas, after-action reviews, trace scoring, retros, agent playbooks, bootstrap templates, and doctor checks.
+Public v0.3.1 draft with standalone learning-loop schemas, persistent role profiles, role-local workspaces, retros, agent playbooks, bootstrap templates, and doctor checks.

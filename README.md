@@ -16,7 +16,7 @@ Every meaningful project moves through a visible loop:
 6. build
 7. QA
 8. close
-9. promote lessons
+9. promote lessons & self-improvement
 
 The operating system carries its own task-state model. External visualization can mirror that state, but the core design should not assume one.
 

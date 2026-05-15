@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/agent-lesson-rollup.schema.json",
+  "title": "AgentLessonRollup",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "agentRole", "windowDays", "taskCount", "reviewedCount", "learningHealth", "confidence"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "agentRole": { "type": "string", "maxLength": 80 },
+    "windowDays": { "type": "integer", "minimum": 1, "maximum": 365 },
+    "taskCount": { "type": "integer", "minimum": 0 },
+    "reviewedCount": { "type": "integer", "minimum": 0 },
+    "learningHealth": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "strengths": { "type": "array", "items": { "type": "string", "maxLength": 160 } },
+    "watchItems": { "type": "array", "items": { "type": "string", "maxLength": 160 } },
+    "topCategories": { "type": "array", "items": { "type": "object" } },
+    "pendingPlaybookUpdates": { "type": "integer", "minimum": 0 },
+    "evidenceTaskIds": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -17,12 +17,24 @@
 - doctor checks for config, task-state, artifacts, roles, QA gate, and sample task flow
 - public-facing documentation for local startup and validation
 
-## v0.3 — task-state ergonomics
+## v0.3 — standalone learning loop
+
+- after-action review template and schema
+- trace scoring schema
+- agent lesson rollup schema
+- learning suggestion schema/lifecycle
+- playbook starter template
+- learning suggestions state file
+- doctor checks for standalone learning-loop artifacts
+- explicit adapter boundary: no Mission Control, Kanban, dashboard, or private runtime dependency in the core model
+
+## v0.4 — task-state ergonomics
 
 - task add/update helpers
 - stricter schema documentation
 - example role prompts kept generic
 - reusable validation fixtures
+- optional adapter examples kept outside the core runtime
 
 ## v1.0 — stable agent-team package
 

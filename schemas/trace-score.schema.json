@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/trace-score.schema.json",
+  "title": "TraceScore",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "overall", "confidence", "dimensions", "drivers", "evidence"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "overall": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["briefClarity", "executionTrace", "validationQuality", "coordinationQuality", "reworkRisk", "learningValue"],
+      "properties": {
+        "briefClarity": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "executionTrace": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "validationQuality": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "coordinationQuality": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "reworkRisk": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "learningValue": { "type": "integer", "minimum": 0, "maximum": 5 }
+      }
+    },
+    "drivers": { "type": "array", "items": { "type": "string", "maxLength": 180 }, "maxItems": 8 },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "taskId": { "type": "string" },
+        "artifactPaths": { "type": "array", "items": { "type": "string" } },
+        "hasAfterAction": { "type": "boolean" },
+        "hasQa": { "type": "boolean" },
+        "hasValidation": { "type": "boolean" }
+      }
+    }
+  }
+}

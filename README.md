@@ -1,8 +1,8 @@
 # Agent Team Brain
 
-Agent Team Brain is an artifact-driven operating system for AI agent teams: team roles, shared task state, project briefs, handoffs, QA gates, and a learning loop.
+Agent Team Brain is a standalone, artifact-driven operating system for AI agent teams: team roles, shared task state, project briefs, handoffs, QA gates, after-action reviews, trace scoring, playbook updates, and a learning loop.
 
-It is designed for agentic teams.
+It is designed for agentic teams and does **not** require Mission Control, a Kanban board, or any specific dashboard. External visualization can mirror the state, but the core model runs from files and schemas in this package.
 
 ## Core idea
 
@@ -16,9 +16,13 @@ Every meaningful project moves through a visible loop:
 6. build
 7. QA
 8. close
-9. promote lessons & self-improvement
+9. capture after-action reviews
+10. score the task trace
+11. roll up agent lessons
+12. review process-upgrade suggestions
+13. promote durable lessons into templates, procedures, or playbooks
 
-The operating system carries its own task-state model. External visualization can mirror that state, but the core design should not assume one.
+The operating system carries its own task-state and learning-state model. External visualization can mirror that state, but the core design should not assume one.
 
 ## Install / bootstrap
 
@@ -41,14 +45,21 @@ The bootstrap creates a self-contained starter layout:
 
 ```text
 agent-team-brain.config.json
-agent-team-state/tasks.json
-agents/roles.md
+agent-team-state/
+  tasks.json
+  learning-suggestions.json
+agents/
+  roles.md
+  playbooks/coordinator.md
 AGENT_TEAM_BRAIN.md
 agent-notes/sample-project/
   brief.md
   handoff.md
   qa-report.md
   lessons.md
+templates/learning-loop/
+  after-action-review.md
+  process-upgrade-suggestion.md
 ```
 
 Run `agent-team-brain doctor [target-dir]` before release. The doctor prints `pass`, `warn`, and `fail` lines and exits nonzero when a blocking check fails.
@@ -61,6 +72,8 @@ An agent team needs:
 - a shared task-state file or queue carried by this operating system
 - shared markdown artifacts
 - a QA/review gate
+- after-action review artifacts or task-local review records
+- a suggestion store for process/playbook improvements
 - a coordinator agent that closes the loop
 
 ## Team Roles
@@ -74,6 +87,17 @@ An agent team needs:
 - QA Reviewer
 
 See [`docs/core/roles.md`](docs/core/roles.md).
+
+## Learning loop
+
+The standalone learning loop includes:
+
+- `TaskAfterActionReview` — what worked, what broke, what slowed down, and what should change next time.
+- `TraceScore` — brief clarity, execution trace, validation quality, coordination quality, rework risk, and learning value.
+- `AgentLessonRollup` — strengths, watch items, repeated categories, and pending playbook updates.
+- `LearningSuggestion` — reviewed process-upgrade or playbook-update candidate.
+
+See [`docs/core/learning-loop.md`](docs/core/learning-loop.md) and [`docs/core/self-improvement-loop.md`](docs/core/self-improvement-loop.md).
 
 ## Project artifacts
 
@@ -95,4 +119,4 @@ Use only the files that apply. Avoid process noise for tiny work.
 
 ## Status
 
-Public v0.2 draft with bootstrap and doctor commands.
+Public v0.3 draft with standalone learning-loop schemas, templates, bootstrap, and doctor checks.

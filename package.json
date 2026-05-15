@@ -1,6 +1,6 @@
 {
   "name": "agent-team-brain",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Artifact-driven operating system starter for AI agent teams.",
   "license": "MIT",
   "type": "module",
@@ -19,6 +19,7 @@
     "ROADMAP.md",
     "bin/",
     "docs/",
+    "schemas/",
     "templates/",
     "package.json"
   ]

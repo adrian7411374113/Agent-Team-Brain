@@ -3,21 +3,26 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-const VERSION = '0.2.0';
-const ROLES = ['Coordinator', 'Architect', 'UX Reviewer', 'Scout', 'Analyst', 'Builder', 'QA Reviewer'];
+const VERSION = '0.3.0';
+const ROLES = ['Coordinator', 'Architect', 'UX Reviewer', 'Scout / Assistant Coder', 'Analyst', 'Builder', 'QA Reviewer'];
 const LIFECYCLE = ['queued', 'active', 'blocked', 'review', 'success', 'failure'];
 
 const STARTER_FILES = {
   'agent-team-brain.config.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/v0.2',
+    schemaVersion: 'agent-team-brain/v0.3',
     artifactRoot: 'agent-notes',
     taskState: 'agent-team-state/tasks.json',
     qaGate: { required: true, role: 'QA Reviewer' },
     roles: ROLES,
-    lifecycle: LIFECYCLE
+    lifecycle: LIFECYCLE,
+    learning: {
+      afterActionTemplate: 'templates/learning-loop/after-action-review.md',
+      suggestions: 'agent-team-state/learning-suggestions.json',
+      playbookRoot: 'agents/playbooks'
+    }
   }, null, 2) + '\n',
   'agent-team-state/tasks.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/tasks/v0.2',
+    schemaVersion: 'agent-team-brain/tasks/v0.3',
     tasks: [
       {
         id: 'sample-brief',
@@ -60,6 +65,81 @@ const STARTER_FILES = {
       }
     ]
   }, null, 2) + '\n',
+  'agent-team-state/learning-suggestions.json': () => JSON.stringify({
+    schemaVersion: 'agent-team-brain/learning-suggestions/v0.3',
+    suggestions: []
+  }, null, 2) + '\n',
+  'agents/playbooks/coordinator.md': () => `# Coordinator Playbook
+
+## Mission
+
+Own scope, sequencing, final close, and durable lesson promotion.
+
+## Before starting
+
+- Confirm task state and artifacts exist.
+- Pick the lightest process tier that protects quality.
+
+## Handoff expectations
+
+- Every accepted process upgrade becomes a normal update task.
+
+## Recent promoted lessons
+
+- Keep adapters separate from the standalone operating model.
+`,
+  'templates/learning-loop/after-action-review.md': () => `# After-Action Review
+
+## Source task
+
+- Task ID:
+- Role:
+- Project/artifacts:
+
+## What worked
+
+-
+
+## What broke or nearly broke
+
+-
+
+## What slowed us down
+
+-
+
+## Next-time change
+
+-
+
+## Category
+
+workflow, handoff, qa, tooling, ux, architecture, coordination, memory, other
+
+## Promotion target
+
+none, project lessons, template, procedure, tools note, skill, agent playbook
+`,
+  'templates/learning-loop/process-upgrade-suggestion.md': () => `# Process Upgrade Suggestion
+
+## Suggestion
+
+- ID:
+- Fingerprint:
+- Category:
+- Target:
+- Confidence:
+- State: suggested
+
+## Evidence task IDs
+
+-
+
+## Coordinator decision
+
+- [ ] Accept → create update task
+- [ ] Dismiss
+`,
   'agent-notes/sample-project/brief.md': () => `# Sample Project Brief\n\n## Goal\n\nDemonstrate a complete agentic-team task flow.\n\n## Acceptance Criteria\n\n- Task state exists in this repository.\n- Builder handoff exists.\n- QA Reviewer report exists and closes the gate.\n`,
   'agent-notes/sample-project/handoff.md': () => `# Builder Handoff\n\n## Changes\n\n- Created a starter project artifact set.\n- Kept task state local to the operating system.\n\n## Validation\n\n- Run \`agent-team-brain doctor\`.\n`,
   'agent-notes/sample-project/qa-report.md': () => `# QA Report\n\n## Result\n\nPASS\n\n## Evidence\n\n- Config, task-state, artifacts, roles, and sample task flow are present.\n- QA gate is represented by a QA Reviewer task.\n`,
@@ -125,8 +205,8 @@ function validateDoctor(targetDir) {
   const config = readJson(configPath, checks);
   if (!config) return printDoctor(checks);
 
-  if (config.schemaVersion === 'agent-team-brain/v0.2') checks.pass('config schemaVersion is v0.2');
-  else checks.fail('config schemaVersion must be agent-team-brain/v0.2');
+  if (config.schemaVersion === 'agent-team-brain/v0.3') checks.pass('config schemaVersion is v0.3');
+  else checks.fail('config schemaVersion must be agent-team-brain/v0.3');
 
   const missingRoles = ROLES.filter((role) => !config.roles?.includes(role));
   const extraRoles = (config.roles || []).filter((role) => !ROLES.includes(role));
@@ -168,6 +248,20 @@ function validateDoctor(targetDir) {
   const hasFlowHistory = tasks.some((task) => (task.history || []).some((entry) => entry.status === 'queued')) && tasks.some((task) => (task.history || []).some((entry) => entry.status === 'active'));
   if (hasBuilder && hasQa && hasFlowHistory) checks.pass('sample task flow demonstrates build followed by QA');
   else checks.fail('sample task flow must include Builder success, dependent QA Reviewer success, and lifecycle history');
+
+  const suggestionsRel = config.learning?.suggestions || 'agent-team-state/learning-suggestions.json';
+  const suggestionsPath = path.join(targetDir, suggestionsRel);
+  const suggestions = readJson(suggestionsPath, checks);
+  if (suggestions && Array.isArray(suggestions.suggestions)) checks.pass('learning suggestions store exists');
+  else checks.fail('learning suggestions store must contain a suggestions array');
+
+  const afterActionTemplate = path.join(targetDir, config.learning?.afterActionTemplate || 'templates/learning-loop/after-action-review.md');
+  if (fs.existsSync(afterActionTemplate)) checks.pass('after-action review template exists');
+  else checks.fail('after-action review template is missing');
+
+  const playbookRoot = path.join(targetDir, config.learning?.playbookRoot || 'agents/playbooks');
+  if (fs.existsSync(playbookRoot)) checks.pass('agent playbook root exists');
+  else checks.warn('agent playbook root is recommended for playbook evolution');
 
   const roleFile = path.join(targetDir, 'agents/roles.md');
   if (fs.existsSync(roleFile)) checks.pass('roles artifact exists');

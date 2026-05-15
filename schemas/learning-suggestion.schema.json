@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/learning-suggestion.schema.json",
+  "title": "LearningSuggestion",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "fingerprint", "title", "category", "target", "confidence", "evidenceTaskIds", "state", "createdAt", "updatedAt"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "maxLength": 120 },
+    "fingerprint": { "type": "string", "maxLength": 180 },
+    "title": { "type": "string", "maxLength": 160 },
+    "summary": { "type": "string", "maxLength": 1200 },
+    "category": {
+      "type": "string",
+      "enum": ["workflow", "handoff", "qa", "tooling", "ux", "architecture", "coordination", "memory", "process", "playbook", "other"]
+    },
+    "target": {
+      "type": "string",
+      "enum": ["template", "procedure", "tools", "skill", "agent_playbook", "qa", "architecture", "workflow"]
+    },
+    "agentRole": { "type": ["string", "null"], "maxLength": 80 },
+    "targetPath": { "type": ["string", "null"], "maxLength": 240 },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "evidenceTaskIds": { "type": "array", "items": { "type": "string", "maxLength": 120 }, "minItems": 1 },
+    "state": { "type": "string", "enum": ["suggested", "accepted", "in_progress", "applied", "dismissed"] },
+    "acceptedTaskId": { "type": ["string", "null"], "maxLength": 120 },
+    "dismissedReason": { "type": ["string", "null"], "maxLength": 500 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "reviewedBy": { "type": ["string", "null"], "maxLength": 80 }
+  }
+}

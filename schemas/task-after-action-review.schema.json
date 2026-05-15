@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/task-after-action-review.schema.json",
+  "title": "TaskAfterActionReview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "category", "promotionTarget", "promotionStatus", "reviewedAt", "reviewedBy", "updatedAt"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "worked": { "type": "string", "maxLength": 1200 },
+    "broke": { "type": "string", "maxLength": 1200 },
+    "slowdown": { "type": "string", "maxLength": 1200 },
+    "nextTime": { "type": "string", "maxLength": 1200 },
+    "category": {
+      "type": "string",
+      "enum": ["workflow", "handoff", "qa", "tooling", "ux", "architecture", "coordination", "memory", "other"]
+    },
+    "promotionTarget": {
+      "type": "string",
+      "enum": ["none", "project_lessons", "template", "procedure", "tools", "skill", "agent_playbook"]
+    },
+    "promotionStatus": {
+      "type": "string",
+      "enum": ["none", "candidate", "task_created", "promoted", "dismissed"]
+    },
+    "promotionTaskId": { "type": ["string", "null"], "maxLength": 160 },
+    "promotionNote": { "type": "string", "maxLength": 1200 },
+    "promotedAt": { "type": ["string", "null"], "format": "date-time" },
+    "promotedBy": { "type": ["string", "null"], "maxLength": 80 },
+    "reviewedAt": { "type": "string", "format": "date-time" },
+    "reviewedBy": { "type": "string", "maxLength": 80 },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

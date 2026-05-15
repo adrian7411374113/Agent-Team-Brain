@@ -2,7 +2,7 @@
 
 Agent Team Brain is a standalone, artifact-driven operating system for AI agent teams: team roles, shared task state, project briefs, handoffs, QA gates, after-action reviews, trace scoring, playbook updates, and a learning loop.
 
-It is designed for agentic teams and does **not** require Mission Control, a Kanban board, or any specific dashboard. External visualization can mirror the state, but the core model runs from files and schemas in this package.
+It is designed for agentic teams and runs from files and schemas in this package. External visualization can mirror the state, but the core model does not depend on any specific UI.
 
 ## Core idea
 

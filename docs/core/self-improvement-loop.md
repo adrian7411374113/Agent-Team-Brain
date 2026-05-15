@@ -2,7 +2,7 @@
 
 Agent Team Brain improves from task traces, after-action reviews, and reviewed playbook updates.
 
-This loop is standalone. It does **not** require Mission Control, a Kanban board, or any particular dashboard. Those can exist as adapters, but the core system is task state plus artifacts.
+This loop is standalone. The core system is task state plus artifacts; optional adapters should stay outside the core model.
 
 ## Basic loop
 

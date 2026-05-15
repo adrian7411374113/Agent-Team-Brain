@@ -26,7 +26,7 @@
 - playbook starter template
 - learning suggestions state file
 - doctor checks for standalone learning-loop artifacts
-- explicit adapter boundary: no Mission Control, Kanban, dashboard, or private runtime dependency in the core model
+- explicit adapter boundary: no dashboard, private runtime, or product-specific dependency in the core model
 
 ## v0.4 — task-state ergonomics
 

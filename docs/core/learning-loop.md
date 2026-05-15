@@ -2,7 +2,7 @@
 
 The Agent Team Brain learning loop is a standalone, artifact-first process for helping an AI agent team improve over time.
 
-It does **not** require a dashboard, Kanban board, Mission Control, or any specific runtime UI. A UI may adapt these files later, but the core loop is plain task state plus markdown/JSON artifacts.
+It runs from plain task state plus markdown/JSON artifacts. A UI may adapt these files later, but the learning loop does not depend on any specific runtime UI.
 
 ## Core loop
 
@@ -20,7 +20,7 @@ It does **not** require a dashboard, Kanban board, Mission Control, or any speci
 - Do not auto-write procedures, role files, skills, or public documentation without review.
 - Store evidence as task IDs and artifact paths, not raw private transcripts or logs.
 - Use generic role names in portable artifacts: Coordinator, Architect, UX Reviewer, Scout / Assistant Coder, Analyst, Builder, QA Reviewer.
-- Keep adapters separate. A web dashboard, Kanban board, chat bot, or database can mirror this model, but none is required.
+- Keep adapters separate. A web dashboard, chat bot, or database can mirror this model, but none is required.
 
 ## Portable artifact set
 

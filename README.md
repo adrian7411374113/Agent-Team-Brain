@@ -1,6 +1,6 @@
 # Agent Team Brain
 
-Agent Team Brain is a file-first operating system for small AI agent teams: generic roles, shared project artifacts, QA gates, task-state discipline, and a self-improvement loop.
+Agent Team Brain is a file-first operating system for small AI agent teams: team roles, shared project artifacts, QA gates, task-state discipline, and a self-improvement loop.
 
 It is designed for agentic teams.
 
@@ -57,13 +57,13 @@ Run `agent-team-brain doctor [target-dir]` before release. The doctor prints `pa
 
 An agent team needs:
 
-- agents assigned to generic roles
+- agents assigned to team roles
 - a shared task-state file or queue carried by this operating system
 - shared markdown artifacts
 - a QA/review gate
 - a coordinator agent that closes the loop
 
-## Generic roles
+## Team Roles
 
 - Coordinator
 - Architect

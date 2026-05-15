@@ -1,10 +1,10 @@
-# Generic Agent Roles
+# Team Roles
 
-The public Agent Team Brain model uses generic role names.
+The public Agent Team Brain model uses team role names.
 
 ## Default roles
 
-| Generic role | Responsibility |
+| Team role | Responsibility |
 |---|---|
 | Coordinator | Owns scope, sequencing, final synthesis, closeout, and lesson promotion. |
 | Architect | Designs data/control flow, interfaces, failure modes, migration, and rollback. |

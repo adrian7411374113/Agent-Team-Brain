@@ -64,8 +64,8 @@ const STARTER_FILES = {
   'agent-notes/sample-project/handoff.md': () => `# Builder Handoff\n\n## Changes\n\n- Created a starter project artifact set.\n- Kept task state local to the operating system.\n\n## Validation\n\n- Run \`agent-team-brain doctor\`.\n`,
   'agent-notes/sample-project/qa-report.md': () => `# QA Report\n\n## Result\n\nPASS\n\n## Evidence\n\n- Config, task-state, artifacts, roles, and sample task flow are present.\n- QA gate is represented by a QA Reviewer task.\n`,
   'agent-notes/sample-project/lessons.md': () => `# Lessons\n\n- Keep coordination state in plain files.\n- Promote useful patterns back into the starter after QA.\n`,
-  'agents/roles.md': () => `# Agent Roles\n\n${ROLES.map((role) => `- ${role}`).join('\n')}\n\nOnly generic agent roles are used by this starter.\n`,
-  'AGENT_TEAM_BRAIN.md': () => `# Agent Team Brain Starter\n\nThis folder is a file-first operating system starter for an AI agent team.\n\n## Loop\n\n1. Add or update tasks in \`agent-team-state/tasks.json\`.\n2. Assign each task to a generic role.\n3. Write project artifacts under \`agent-notes/<project-slug>/\`.\n4. Move build work through QA Reviewer before closing.\n5. Run \`agent-team-brain doctor\` before release.\n`
+  'agents/roles.md': () => `# Agent Roles\n\n${ROLES.map((role) => `- ${role}`).join('\n')}\n\nOnly team roles are used by this starter.\n`,
+  'AGENT_TEAM_BRAIN.md': () => `# Agent Team Brain Starter\n\nThis folder is a file-first operating system starter for an AI agent team.\n\n## Loop\n\n1. Add or update tasks in \`agent-team-state/tasks.json\`.\n2. Assign each task to a team role.\n3. Write project artifacts under \`agent-notes/<project-slug>/\`.\n4. Move build work through QA Reviewer before closing.\n5. Run \`agent-team-brain doctor\` before release.\n`
 };
 
 function usage(exitCode = 0) {
@@ -130,8 +130,8 @@ function validateDoctor(targetDir) {
 
   const missingRoles = ROLES.filter((role) => !config.roles?.includes(role));
   const extraRoles = (config.roles || []).filter((role) => !ROLES.includes(role));
-  if (missingRoles.length === 0 && extraRoles.length === 0) checks.pass('generic role set is complete');
-  else checks.fail(`roles must exactly match generic roles; missing: ${missingRoles.join(', ') || 'none'}; extra: ${extraRoles.join(', ') || 'none'}`);
+  if (missingRoles.length === 0 && extraRoles.length === 0) checks.pass('team role set is complete');
+  else checks.fail(`roles must exactly match team roles; missing: ${missingRoles.join(', ') || 'none'}; extra: ${extraRoles.join(', ') || 'none'}`);
 
   if (config.qaGate?.required === true && config.qaGate?.role === 'QA Reviewer') checks.pass('QA gate requires QA Reviewer');
   else checks.fail('qaGate.required must be true and qaGate.role must be QA Reviewer');
@@ -146,7 +146,7 @@ function validateDoctor(targetDir) {
   const tasks = taskState.tasks || [];
   const ids = new Set(tasks.map((task) => task.id));
   const invalid = tasks.filter((task) => !task.id || !task.title || !ROLES.includes(task.role) || !LIFECYCLE.includes(task.status));
-  if (invalid.length === 0) checks.pass('tasks have id, title, generic role, and valid lifecycle status');
+  if (invalid.length === 0) checks.pass('tasks have id, title, team role, and valid lifecycle status');
   else checks.fail(`invalid task records: ${invalid.map((task) => task.id || '(missing id)').join(', ')}`);
 
   const brokenDeps = [];

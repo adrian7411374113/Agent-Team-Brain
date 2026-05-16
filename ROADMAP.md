@@ -47,6 +47,14 @@
 - context reload contract for future task-scoped runtime sessions
 - token-bloat prevention through durable summarized state
 
+## v0.4.1 — dream integrity hardening
+
+- stricter context-pack template
+- doctor integrity checks for active project context packs
+- context-pack schema
+- reviewer validation guidance to reduce coordinator single-point-of-failure risk
+- context history / rollback / diff notes
+
 ## v0.5 — task-state ergonomics
 
 - task add/update helpers

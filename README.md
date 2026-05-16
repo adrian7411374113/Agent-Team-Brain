@@ -143,6 +143,8 @@ Agent Team Brain v0.4 adds a Dream Cycle so large projects do not depend on ever
 - **Team dream** — repeated issues become reviewed suggestions, retro inputs, or playbook/template update candidates.
 - **Context reload** — future sessions load the role profile, role playbook, assigned task, latest context pack, and relevant artifacts instead of full history.
 
+v0.4.1 hardens this with context-pack integrity checks, reviewer validation, and rollback/diff guidance.
+
 See [`docs/core/dream-cycle.md`](docs/core/dream-cycle.md).
 
 ## Learning loop
@@ -193,4 +195,4 @@ Use only the files that apply. Avoid process noise for tiny work.
 
 ## Status
 
-Public v0.4 draft with dream-cycle context hygiene, persistent role profiles, role-local workspaces, standalone learning-loop schemas, retros, agent playbooks, bootstrap templates, and doctor checks.
+Public v0.4.1 draft with dream-cycle context hygiene, persistent role profiles, role-local workspaces, standalone learning-loop schemas, retros, agent playbooks, bootstrap templates, and doctor checks.

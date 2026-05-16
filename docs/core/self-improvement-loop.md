@@ -59,3 +59,8 @@ See also: [`learning-loop.md`](learning-loop.md).
 ## Dream Cycle / context hygiene
 
 For context-heavy work, run a dream cycle before future sessions reload the project. Agent dreams preserve role-specific run summaries; project dreams preserve current state, decisions, open questions, next actions, and a context pack; team dreams feed reviewed suggestions and playbook updates. This keeps continuity in durable artifacts instead of full runtime transcripts.
+
+
+## Context-pack integrity
+
+Dream-cycle outputs are only useful if later sessions can trust them. Run `agent-team-brain doctor` to verify required context-pack sections for active projects, and keep previous context packs in context history so changes can be reviewed or rolled back.

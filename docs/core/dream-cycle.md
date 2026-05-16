@@ -67,7 +67,7 @@ A project dream turns many role dreams into one current-state packet:
 - artifact index
 - recommended context for the next run
 
-The project dream is the main defense against context bloat. Future sessions should read the project dream before reading older artifacts.
+The project dream is the main defense against context bloat. Future sessions should read the project dream before reading older artifacts. The coordinator does not get unchecked authority: context packs should be validated by a reviewer or peer role before later sessions rely on them.
 
 ## Team dream
 
@@ -81,6 +81,48 @@ A team dream looks across projects or repeated issues:
 - template improvements
 
 Team dreams feed the learning loop by producing reviewed suggestions, not silent rule changes.
+
+
+## Context pack integrity
+
+A context pack is valid only if it is present, non-empty, and contains these sections:
+
+- Purpose
+- Metadata
+- Load first
+- Current state
+- Decisions
+- Open questions
+- Next actions
+- Relevant artifacts
+- Do not reload unless needed
+- Rollback / diff notes
+
+`agent-team-brain doctor` checks the starter context pack and every active project context pack it can infer from task artifacts. Missing or empty required sections are blocking failures.
+
+## Versioning, diff, and rollback
+
+Context packs should be replaceable, not silently overwritten. Before replacing a context pack, copy the old file to a history folder such as:
+
+```text
+agent-notes/<project-slug>/context-history/YYYY-MM-DDTHHMMSSZ-context-pack.md
+```
+
+Each new context pack should record:
+
+- context pack version
+- generated timestamp
+- previous context pack path
+- source dreams
+- validator/reviewer
+- summary of changes
+- rollback instruction
+
+This gives the team a lightweight diff/rollback trail without requiring a specific database or UI.
+
+## Coordinator validation
+
+The coordinator can draft the project dream, but larger or risky projects should have a second role validate the context pack. Good validators are QA Reviewer for release-sensitive work, Architect for system design, or Scout / Assistant Coder when the uncertainty is technical discovery.
 
 ## Context reload contract
 

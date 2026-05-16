@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/context-pack.schema.json",
+  "title": "ContextPack",
+  "type": "object",
+  "required": ["schemaVersion", "project", "version", "generatedAt", "loadFirst", "currentState", "decisions", "openQuestions", "nextActions", "relevantArtifacts", "rollback"],
+  "properties": {
+    "schemaVersion": { "const": "agent-team-brain/context-pack/v0.4.1" },
+    "project": { "type": "string", "minLength": 1 },
+    "version": { "type": ["string", "integer"] },
+    "generatedAt": { "type": "string" },
+    "replaces": { "type": ["string", "null"] },
+    "sourceDreams": { "type": "array", "items": { "type": "string" } },
+    "validatedBy": { "type": "string" },
+    "loadFirst": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "currentState": { "type": "string", "minLength": 1 },
+    "decisions": { "type": "array", "items": { "type": "string" } },
+    "openQuestions": { "type": "array", "items": { "type": "string" } },
+    "nextActions": { "type": "array", "items": { "type": "string" } },
+    "relevantArtifacts": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "doNotReloadUnlessNeeded": { "type": "array", "items": { "type": "string" } },
+    "rollback": {
+      "type": "object",
+      "required": ["previousContextPack", "summaryOfChanges", "rollbackInstruction"],
+      "properties": {
+        "previousContextPack": { "type": ["string", "null"] },
+        "summaryOfChanges": { "type": "string" },
+        "rollbackInstruction": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

@@ -92,3 +92,8 @@ Do not include:
 - credentials, URLs, cookies, tokens, or logs
 - screenshots containing private information
 - runtime-specific internals from a private dashboard or bot
+
+
+## Context-pack integrity
+
+Dream-cycle outputs are only useful if later sessions can trust them. Run `agent-team-brain doctor` to verify required context-pack sections for active projects, and keep previous context packs in context history so changes can be reviewed or rolled back.

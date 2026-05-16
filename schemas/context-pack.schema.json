@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["schemaVersion", "project", "version", "generatedAt", "loadFirst", "currentState", "decisions", "openQuestions", "nextActions", "relevantArtifacts", "rollback"],
   "properties": {
-    "schemaVersion": { "const": "agent-team-brain/context-pack/v0.4.1" },
+    "schemaVersion": { "const": "agent-team-brain/context-pack/v0.4.2" },
     "project": { "type": "string", "minLength": 1 },
     "version": { "type": ["string", "integer"] },
     "generatedAt": { "type": "string" },

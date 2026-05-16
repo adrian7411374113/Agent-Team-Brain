@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-const VERSION = '0.4.1';
+const VERSION = '0.4.2';
 const ROLES = ['Coordinator', 'Architect', 'UX Reviewer', 'Scout / Assistant Coder', 'Analyst', 'Builder', 'QA Reviewer'];
 const LIFECYCLE = ['queued', 'active', 'blocked', 'review', 'success', 'failure'];
 
@@ -13,7 +13,7 @@ function roleSlug(role) {
 
 const STARTER_FILES = {
   'agent-team-brain.config.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/v0.4.1',
+    schemaVersion: 'agent-team-brain/v0.4.2',
     artifactRoot: 'agent-notes',
     taskState: 'agent-team-state/tasks.json',
     qaGate: { required: true, role: 'QA Reviewer' },
@@ -34,11 +34,18 @@ const STARTER_FILES = {
       enabled: true,
       templateRoot: 'templates/dream-cycle',
       contextPackTemplate: 'templates/dream-cycle/context-pack.md',
-      projectDreamTemplate: 'templates/dream-cycle/project-dream.md'
+      projectDreamTemplate: 'templates/dream-cycle/project-dream.md',
+      compactionPolicy: {
+        scope: 'project-or-session',
+        recommendedAt: 2,
+        triggerAt: 3,
+        resetAfterSuccessfulDream: true,
+        cooldownHours: 2
+      }
     }
   }, null, 2) + '\n',
   'agent-team-state/tasks.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/tasks/v0.4.1',
+    schemaVersion: 'agent-team-brain/tasks/v0.4.2',
     tasks: [
       {
         id: 'sample-brief',
@@ -82,8 +89,19 @@ const STARTER_FILES = {
     ]
   }, null, 2) + '\n',
   'agent-team-state/learning-suggestions.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/learning-suggestions/v0.4.1',
+    schemaVersion: 'agent-team-brain/learning-suggestions/v0.4.2',
     suggestions: []
+  }, null, 2) + '\n',
+  'agent-team-state/dream-triggers.json': () => JSON.stringify({
+    schemaVersion: 'agent-team-brain/dream-triggers/v0.4.2',
+    policy: {
+      scope: 'project-or-session',
+      recommendedAt: 2,
+      triggerAt: 3,
+      resetAfterSuccessfulDream: true,
+      cooldownHours: 2
+    },
+    scopes: []
   }, null, 2) + '\n',
   'agents/playbooks/coordinator.md': () => `# Coordinator Playbook
 
@@ -105,7 +123,7 @@ Own scope, sequencing, final close, and durable lesson promotion.
 - Keep adapters separate from the standalone operating model.
 `,
   'agents/runtime-bindings.example.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/runtime-bindings/v0.4.1',
+    schemaVersion: 'agent-team-brain/runtime-bindings/v0.4.2',
     note: 'Optional: map persistent role profiles to your runtime sessions, workers, or tools. Keep provider-specific details out of the core files.',
     bindings: ROLES.map((role) => ({ role, profile: `agents/roles/${roleSlug(role)}.md`, workspace: `agents/workspaces/${roleSlug(role)}` }))
   }, null, 2) + '\n',
@@ -719,7 +737,7 @@ This folder is an artifact-driven operating system starter for an AI agent team.
 3. Use \`agents/workspaces/<role-slug>/\` for role-local scratch notes.
 4. Write project artifacts under \`agent-notes/<project-slug>/\`.
 5. Move build work through QA Reviewer before closing.
-6. Run a dream cycle for larger tasks or context-heavy handoffs.
+6. Track compactions by project/session: recommend a dream at 2 compactions and automatically run one at 3.
 7. Validate the context pack with a reviewer before relying on it.
 8. Store replaced context packs in context history for rollback.
 9. Load future sessions from \`context-pack.md\` before older history.
@@ -837,8 +855,8 @@ function validateDoctor(targetDir) {
   const config = readJson(configPath, checks);
   if (!config) return printDoctor(checks);
 
-  if (config.schemaVersion === 'agent-team-brain/v0.4.1') checks.pass('config schemaVersion is v0.4.1');
-  else checks.fail('config schemaVersion must be agent-team-brain/v0.4.1');
+  if (config.schemaVersion === 'agent-team-brain/v0.4.2') checks.pass('config schemaVersion is v0.4.2');
+  else checks.fail('config schemaVersion must be agent-team-brain/v0.4.2');
 
   const missingRoles = ROLES.filter((role) => !config.roles?.includes(role));
   const extraRoles = (config.roles || []).filter((role) => !ROLES.includes(role));
@@ -886,6 +904,13 @@ function validateDoctor(targetDir) {
   const suggestions = readJson(suggestionsPath, checks);
   if (suggestions && Array.isArray(suggestions.suggestions)) checks.pass('learning suggestions store exists');
   else checks.fail('learning suggestions store must contain a suggestions array');
+
+  const dreamTriggersPath = path.join(targetDir, 'agent-team-state/dream-triggers.json');
+  const dreamTriggers = readJson(dreamTriggersPath, checks);
+  if (dreamTriggers && dreamTriggers.policy?.triggerAt === 3 && Array.isArray(dreamTriggers.scopes)) checks.pass('dream trigger state exists with 3-compaction policy');
+  else checks.fail('dream trigger state must exist with policy.triggerAt=3 and scopes array');
+  if (config.dreaming?.compactionPolicy?.triggerAt === 3 && config.dreaming?.compactionPolicy?.recommendedAt === 2) checks.pass('dreaming compaction policy is configured');
+  else checks.fail('dreaming.compactionPolicy must recommend at 2 and trigger at 3 compactions');
 
   const afterActionTemplate = path.join(targetDir, config.learning?.afterActionTemplate || 'templates/learning-loop/after-action-review.md');
   if (fs.existsSync(afterActionTemplate)) checks.pass('after-action review template exists');

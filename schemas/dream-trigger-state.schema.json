@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-team-brain.dev/schemas/dream-trigger-state.schema.json",
+  "title": "DreamTriggerState",
+  "type": "object",
+  "required": ["schemaVersion", "policy", "scopes"],
+  "properties": {
+    "schemaVersion": { "const": "agent-team-brain/dream-triggers/v0.4.2" },
+    "policy": {
+      "type": "object",
+      "required": ["scope", "recommendedAt", "triggerAt", "resetAfterSuccessfulDream", "cooldownHours"],
+      "properties": {
+        "scope": { "enum": ["project", "session", "project-or-session"] },
+        "recommendedAt": { "type": "integer", "minimum": 1 },
+        "triggerAt": { "const": 3 },
+        "resetAfterSuccessfulDream": { "type": "boolean" },
+        "cooldownHours": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "compactionsSinceDream"],
+        "properties": {
+          "id": { "type": "string" },
+          "project": { "type": "string" },
+          "session": { "type": "string" },
+          "compactionsSinceDream": { "type": "integer", "minimum": 0 },
+          "state": { "enum": ["clean", "dream_recommended", "dream_due", "dream_running", "dream_failed"] },
+          "lastCompactionAt": { "type": "string" },
+          "lastDreamAt": { "type": "string" },
+          "cooldownUntil": { "type": "string" },
+          "lastContextPack": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

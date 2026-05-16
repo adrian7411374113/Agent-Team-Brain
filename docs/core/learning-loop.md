@@ -97,3 +97,8 @@ Do not include:
 ## Context-pack integrity
 
 Dream-cycle outputs are only useful if later sessions can trust them. Run `agent-team-brain doctor` to verify required context-pack sections for active projects, and keep previous context packs in context history so changes can be reviewed or rolled back.
+
+
+## Compaction-triggered dreams
+
+By default, record compactions per project/session. At 2 compactions, recommend a Dream Cycle. At 3 compactions, run the Dream Cycle automatically in the background, validate the context pack, then reset that scope counter after success.

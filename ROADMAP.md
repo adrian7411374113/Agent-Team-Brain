@@ -55,6 +55,14 @@
 - reviewer validation guidance to reduce coordinator single-point-of-failure risk
 - context history / rollback / diff notes
 
+## v0.4.2 — compaction-triggered dreams
+
+- default policy: 2 compactions recommends Dream Cycle, 3 compactions triggers it automatically
+- dream trigger state file and schema
+- doctor check for 3-compaction policy
+- guidance that dream execution should be background maintenance, not normal visible task-card creation
+- cooldown/reset semantics after successful context-pack validation
+
 ## v0.5 — task-state ergonomics
 
 - task add/update helpers

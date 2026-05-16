@@ -83,6 +83,23 @@ A team dream looks across projects or repeated issues:
 Team dreams feed the learning loop by producing reviewed suggestions, not silent rule changes.
 
 
+
+## Compaction trigger policy
+
+The default automatic trigger is **3 compactions per project/session**. Compaction is treated as a runtime signal that the working context has become large enough to risk recall drift.
+
+Recommended behavior:
+
+1. **First compaction** — record it only.
+2. **Second compaction** — mark the project/session as `dream_recommended`.
+3. **Third compaction** — automatically run the Dream Cycle in the background.
+4. **Successful dream** — write/validate a new context pack, store the previous context pack in context history, then reset the compaction counter for that project/session.
+5. **Failed validation or conflict** — mark `dream_failed` and escalate to a coordinator/reviewer.
+
+The trigger should be scoped to the project or session that compacted, not the entire agent team. Use a cooldown, usually 2–4 hours, so repeated compactions during the same work burst do not cause dream loops.
+
+Dream execution should happen as background maintenance, not by creating normal visible task cards. Visible work should appear only for exceptions, conflicts, or reviewer-required cases.
+
 ## Context pack integrity
 
 A context pack is valid only if it is present, non-empty, and contains these sections:

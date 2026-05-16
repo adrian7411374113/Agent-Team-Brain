@@ -17,6 +17,23 @@ Large projects create too much context:
 
 The fix is not to keep every token alive. The fix is to preserve the useful state in durable files.
 
+## Session rotation principle
+
+Persistent team members are persistent **roles**, not persistent transcripts. A runtime session is an execution shell that can be rotated whenever its context becomes large, stale, or risky.
+
+Rotation should preserve continuity by writing the useful state into durable artifacts before the old session is retired:
+
+- latest task state
+- role dream or handoff
+- project-state and decision-log updates
+- open questions and next actions
+- validated context pack
+- evidence paths needed for audit or rollback
+
+After rotation, the replacement session should reload from role profile, playbook, assigned task, latest context pack, and directly relevant artifacts. It should not inherit the full raw conversation unless the task explicitly requires transcript-level evidence.
+
+This makes long-lived agents safe in practice: the identity, responsibilities, and lessons persist; the overloaded context window does not.
+
 ## Core loop
 
 1. **Agent dream** — each role summarizes its own completed run.
@@ -153,6 +170,19 @@ A new task-scoped runtime session should load this minimum packet:
 6. role-local `current-focus.md` if present
 
 It should avoid loading full transcripts or every historical artifact unless the task explicitly needs them.
+
+## Rotation triggers
+
+Rotate a role/session when any of these are true:
+
+- the session is near the runtime context limit
+- compaction has happened enough times to trigger the compaction policy
+- the agent is carrying stale or conflicting assumptions
+- a project changes phase, owner, or risk level
+- QA failure or rework requires a cleaner retry
+- the current run has produced a good context pack and no longer needs raw history
+
+Rotation should be routine maintenance, not a failure state. Escalate only when the context pack fails validation, decisions conflict, evidence is missing, or rotation would lose required task state.
 
 ## Safety and privacy
 

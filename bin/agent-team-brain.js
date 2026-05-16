@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-const VERSION = '0.4.2';
+const VERSION = '0.4.3';
 const ROLES = ['Coordinator', 'Architect', 'UX Reviewer', 'Scout / Assistant Coder', 'Analyst', 'Builder', 'QA Reviewer'];
 const LIFECYCLE = ['queued', 'active', 'blocked', 'review', 'success', 'failure'];
 
@@ -13,7 +13,7 @@ function roleSlug(role) {
 
 const STARTER_FILES = {
   'agent-team-brain.config.json': () => JSON.stringify({
-    schemaVersion: 'agent-team-brain/v0.4.2',
+    schemaVersion: 'agent-team-brain/v0.4.3',
     artifactRoot: 'agent-notes',
     taskState: 'agent-team-state/tasks.json',
     qaGate: { required: true, role: 'QA Reviewer' },
@@ -41,6 +41,24 @@ const STARTER_FILES = {
         triggerAt: 3,
         resetAfterSuccessfulDream: true,
         cooldownHours: 2
+      },
+      sessionRotation: {
+        enabled: true,
+        replacementSession: 'fresh-task-scoped',
+        reloadFrom: [
+          'role profile',
+          'role playbook',
+          'assigned task',
+          'latest context pack',
+          'relevant artifacts'
+        ],
+        rotateWhen: [
+          'near context limit',
+          'compaction policy triggers',
+          'stale or conflicting assumptions',
+          'project phase or owner changes',
+          'QA failure or rework needs a clean retry'
+        ]
       }
     }
   }, null, 2) + '\n',
@@ -725,10 +743,12 @@ Recommended filename: YYYY-MM-DDTHHMMSSZ-context-pack.md
   'agent-notes/sample-project/handoff.md': () => `# Builder Handoff\n\n## Changes\n\n- Created a starter project artifact set.\n- Kept task state local to the operating system.\n\n## Validation\n\n- Run \`agent-team-brain doctor\`.\n`,
   'agent-notes/sample-project/qa-report.md': () => `# QA Report\n\n## Result\n\nPASS\n\n## Evidence\n\n- Config, task-state, artifacts, roles, and sample task flow are present.\n- QA gate is represented by a QA Reviewer task.\n`,
   'agent-notes/sample-project/lessons.md': () => `# Lessons\n\n- Keep coordination state in plain files.\n- Promote useful patterns back into the starter after QA.\n`,
-  'agents/roles.md': () => `# Agent Roles\n\n${ROLES.map((role) => `- ${role}`).join('\n')}\n\nOnly team roles are used by this starter.\n`,
+  'agents/roles.md': () => `# Agent Roles\n\n${ROLES.map((role) => `- ${role}`).join('\n')}\n\nOnly team roles are used by this starter. Team members are persistent role profiles, playbooks, workspaces, and artifacts; runtime sessions are replaceable and should rotate through the dream-state context-pack flow when they become overloaded, stale, or risky.\n`,
   'AGENT_TEAM_BRAIN.md': () => `# Agent Team Brain Starter
 
-This folder is an artifact-driven operating system starter for an AI agent team.
+This folder is an artifact-driven operating system starter for an AI agent team with dream-state session rotation.
+
+Team members are persistent role profiles, playbooks, workspaces, and artifacts. Runtime sessions are task-scoped execution shells; rotate them when context bloat, repeated compaction, stale assumptions, phase changes, or QA rework would make the next step less reliable.
 
 ## Loop
 
@@ -741,7 +761,8 @@ This folder is an artifact-driven operating system starter for an AI agent team.
 7. Validate the context pack with a reviewer before relying on it.
 8. Store replaced context packs in context history for rollback.
 9. Load future sessions from \`context-pack.md\` before older history.
-10. Run \`agent-team-brain doctor\` before release.
+10. Rotate overloaded runtime sessions after their durable state is captured.
+11. Run \`agent-team-brain doctor\` before release.
 `
 
 };
@@ -855,8 +876,8 @@ function validateDoctor(targetDir) {
   const config = readJson(configPath, checks);
   if (!config) return printDoctor(checks);
 
-  if (config.schemaVersion === 'agent-team-brain/v0.4.2') checks.pass('config schemaVersion is v0.4.2');
-  else checks.fail('config schemaVersion must be agent-team-brain/v0.4.2');
+  if (config.schemaVersion === 'agent-team-brain/v0.4.3') checks.pass('config schemaVersion is v0.4.3');
+  else checks.fail('config schemaVersion must be agent-team-brain/v0.4.3');
 
   const missingRoles = ROLES.filter((role) => !config.roles?.includes(role));
   const extraRoles = (config.roles || []).filter((role) => !ROLES.includes(role));
@@ -911,6 +932,8 @@ function validateDoctor(targetDir) {
   else checks.fail('dream trigger state must exist with policy.triggerAt=3 and scopes array');
   if (config.dreaming?.compactionPolicy?.triggerAt === 3 && config.dreaming?.compactionPolicy?.recommendedAt === 2) checks.pass('dreaming compaction policy is configured');
   else checks.fail('dreaming.compactionPolicy must recommend at 2 and trigger at 3 compactions');
+  if (config.dreaming?.sessionRotation?.enabled === true && config.dreaming?.sessionRotation?.replacementSession === 'fresh-task-scoped') checks.pass('dream-state session rotation is configured');
+  else checks.fail('dreaming.sessionRotation must enable fresh task-scoped replacement sessions');
 
   const afterActionTemplate = path.join(targetDir, config.learning?.afterActionTemplate || 'templates/learning-loop/after-action-review.md');
   if (fs.existsSync(afterActionTemplate)) checks.pass('after-action review template exists');
@@ -935,6 +958,10 @@ function validateDoctor(targetDir) {
   const roleFile = path.join(targetDir, 'agents/roles.md');
   if (fs.existsSync(roleFile)) checks.pass('roles artifact exists');
   else checks.warn('roles artifact is optional but recommended: agents/roles.md');
+
+  const teamDescription = path.join(targetDir, 'AGENT_TEAM_BRAIN.md');
+  if (fs.existsSync(teamDescription) && /session rotation|rotate overloaded runtime sessions/i.test(fs.readFileSync(teamDescription, 'utf8'))) checks.pass('team description includes session rotation');
+  else checks.fail('AGENT_TEAM_BRAIN.md must describe dream-state session rotation');
 
   const roleProfileRoot = path.join(targetDir, config.runtime?.roleProfileRoot || 'agents/roles');
   const missingProfiles = ROLES.map(roleSlug).filter((slug) => !fs.existsSync(path.join(roleProfileRoot, `${slug}.md`)));

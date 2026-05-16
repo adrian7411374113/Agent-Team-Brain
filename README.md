@@ -1,6 +1,6 @@
 # Agent Team Brain
 
-Agent Team Brain is a standalone, artifact-driven operating system for AI agent teams: persistent role profiles, role-local workspaces, shared task state, project briefs, handoffs, QA gates, dream-cycle context hygiene, after-action reviews, team retros, trace scoring, agent playbooks, playbook updates, and a reviewed learning loop.
+Agent Team Brain is a standalone, artifact-driven operating system for AI agent teams: persistent role profiles, role-local workspaces, shared task state, project briefs, handoffs, QA gates, dream-cycle context hygiene, dream-state session rotation, after-action reviews, team retros, trace scoring, agent playbooks, playbook updates, and a reviewed learning loop.
 
 It is designed for agentic teams and runs from files and schemas in this package. External visualization can mirror the state, but the core model does not depend on any specific UI.
 
@@ -22,7 +22,8 @@ Every meaningful project moves through a visible loop:
 12. review process-upgrade suggestions
 13. run team retros for larger efforts
 14. run a dream cycle to compress context for future sessions
-15. promote durable lessons into templates, procedures, or playbooks
+15. rotate overloaded runtime sessions after durable state is captured
+16. promote durable lessons into templates, procedures, or playbooks
 
 The operating system carries its own task-state and learning-state model. External visualization can mirror that state, but the core design should not assume one.
 
@@ -108,6 +109,7 @@ An agent team needs:
 - team retros for larger projects
 - dream-cycle summaries for context-heavy work
 - context packs for future runtime sessions
+- session rotation so durable team identity does not depend on overloaded runtime transcripts
 - a coordinator agent that closes the loop
 
 ## Team Roles
@@ -144,7 +146,7 @@ Agent Team Brain v0.4 adds a Dream Cycle so large projects do not depend on ever
 - **Team dream** — repeated issues become reviewed suggestions, retro inputs, or playbook/template update candidates.
 - **Context reload** — future sessions load the role profile, role playbook, assigned task, latest context pack, and relevant artifacts instead of full history.
 
-v0.4.1 hardens this with context-pack integrity checks, reviewer validation, and rollback/diff guidance. v0.4.2 adds the default trigger: recommend a dream after 2 compactions and automatically run one after 3 compactions per project/session.
+v0.4.1 hardens this with context-pack integrity checks, reviewer validation, and rollback/diff guidance. v0.4.2 adds the default trigger: recommend a dream after 2 compactions and automatically run one after 3 compactions per project/session. v0.4.3 adds session rotation: persistent agents are durable role profiles, playbooks, and artifacts, while overloaded runtime transcripts can be replaced by fresh task-scoped sessions.
 
 See [`docs/core/dream-cycle.md`](docs/core/dream-cycle.md).
 
@@ -196,4 +198,4 @@ Use only the files that apply. Avoid process noise for tiny work.
 
 ## Status
 
-Public v0.4.2 draft with dream-cycle context hygiene, persistent role profiles, role-local workspaces, standalone learning-loop schemas, retros, agent playbooks, bootstrap templates, and doctor checks.
+Public v0.4.3 draft with dream-cycle context hygiene, session rotation, persistent role profiles, role-local workspaces, standalone learning-loop schemas, retros, agent playbooks, bootstrap templates, and doctor checks.

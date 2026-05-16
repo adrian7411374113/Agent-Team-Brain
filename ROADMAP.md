@@ -63,6 +63,14 @@
 - guidance that dream execution should be background maintenance, not normal visible task-card creation
 - cooldown/reset semantics after successful context-pack validation
 
+## v0.4.3 — session rotation
+
+- persistent agents are durable role profiles, playbooks, workspaces, and artifacts, not never-ending transcripts
+- dream-state session rotation is part of the packaged starter config and team description
+- runtime sessions can be rotated after context bloat, repeated compaction, stale assumptions, phase changes, or QA rework
+- replacement sessions reload from assigned task, role profile, playbook, latest context pack, and relevant artifacts
+- escalation is reserved for missing evidence, conflicting decisions, failed context-pack validation, or state-loss risk
+
 ## v0.5 — task-state ergonomics
 
 - task add/update helpers
